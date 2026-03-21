@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>CropDoc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:       #FAFFFE;
+  --bg2:      #F4FDFB;
+  --bg3:      #EEF9F6;
+  --teal:     #A8EDEA;
+  --teal2:    #7DDDD9;
+  --teal3:    #4EC9C4;
+  --tealdk:   #2A9D98;
+  --tealtxt:  #1A6B68;
+  --lilac:    #C77DFF;
+  --lilac2:   #B05FEE;
+  --lilac3:   #9333EA;
+  --lilaclt:  #F3E8FF;
+  --lilactxt: #6B21A8;
+  --blush:    #FED6E3;
+  --blush2:   #FBB6CE;
+  --blush3:   #F472B6;
+  --blushlt:  #FFF0F6;
+  --blushtxt: #9D174D;
+  --mint:     #D1FAE5;
+  --sky:      #DBEAFE;
+  --lemon:    #FEF9C3;
+  --white:    #FFFFFF;
+  --ink:      #1E1B2E;
+  --ink2:     #3D3A52;
+  --ink3:     #6B6880;
+  --ink4:     #9995B0;
+  --border:   rgba(168,237,234,.45);
+  --borderl:  rgba(199,125,255,.2);
+  --sh-teal:  0 8px 28px rgba(78,201,196,.22);
+  --sh-lilac: 0 8px 28px rgba(199,125,255,.28);
+  --sh-blush: 0 6px 20px rgba(244,114,182,.18);
+  --sh-soft:  0 4px 20px rgba(30,27,46,.07);
+  --sh-card:  0 2px 16px rgba(168,237,234,.3);
+  --r:        22px;
+  --r-sm:     14px;
+  --r-xs:     9px;
+  --fh:       'Gilda Display', Georgia, serif;
+  --fb:       'Plus Jakarta Sans', sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--fb);
+  background:var(--bg);
+  color:var(--ink);
+  min-height:100dvh;
+  max-width:480px;
+  margin:0 auto;
+  overflow-x:hidden;
+  position:relative;
+}
+
+/* ── BACKGROUND BLOBS ─────────────────────────────────── */
+.blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);animation:blobdrift 18s ease-in-out infinite alternate}
+.bl1{width:340px;height:340px;background:rgba(168,237,234,.28);top:-100px;left:-80px;animation-delay:0s}
+.bl2{width:260px;height:260px;background:rgba(254,214,227,.35);bottom:-80px;right:-60px;animation-delay:-7s}
+.bl3{width:200px;height:200px;background:rgba(199,125,255,.14);top:40%;right:-50px;animation-delay:-13s}
+.bl4{width:150px;height:150px;background:rgba(209,250,229,.4);bottom:25%;left:-30px;animation-delay:-4s}
+.bl5{width:120px;height:120px;background:rgba(254,249,195,.5);top:20%;left:30%;animation-delay:-9s}
+@keyframes blobdrift{0%{transform:translate(0,0) scale(1)}100%{transform:translate(20px,15px) scale(1.06)}}
+
+/* ── PAGES ────────────────────────────────────────────── */
+.page{display:none;min-height:100dvh;padding-bottom:92px;position:relative;z-index:1}
+.page.active{display:block;animation:softrise .4s cubic-bezier(.16,1,.3,1)}
+@keyframes softrise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── NAV BAR ──────────────────────────────────────────── */
+.nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:480px;z-index:200;
+  background:rgba(250,255,254,.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-top:1.5px solid rgba(168,237,234,.5);
+  display:flex;justify-content:space-around;align-items:center;
+  padding:10px 0 max(12px,env(safe-area-inset-bottom));
+  box-shadow:0 -4px 24px rgba(168,237,234,.2);
+}
+.ni{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;padding:5px 18px;border-radius:var(--r-sm);
+  color:var(--ink4);font-size:.62rem;font-weight:600;
+  letter-spacing:.03em;transition:all .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.ni svg{width:21px;height:21px}
+.ni.active{color:var(--lilac3)}
+.ni-pip{
+  width:18px;height:3px;border-radius:99px;
+  background:linear-gradient(90deg,var(--lilac),var(--blush3));
+  opacity:0;transform:scaleX(0);transition:all .25s;
+}
+.ni.active .ni-pip{opacity:1;transform:scaleX(1)}
+
+/* ── HOME HERO ────────────────────────────────────────── */
+.hero{
+  position:relative;overflow:hidden;
+  padding:52px 24px 44px;
+  background:linear-gradient(160deg,#F0FFFE 0%,#FAF5FF 50%,#FFF0F8 100%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:40px;
+  background:linear-gradient(to bottom,transparent,var(--bg));
+}
+/* petal ring decorations */
+.pring{
+  position:absolute;border-radius:50%;
+  border:1.5px solid rgba(199,125,255,.15);
+  pointer-events:none;
+}
+.pr1{width:220px;height:220px;top:-60px;right:-50px}
+.pr2{width:150px;height:150px;top:-20px;right:-10px;border-color:rgba(168,237,234,.2)}
+.pr3{width:80px;height:80px;top:20px;right:30px;border-color:rgba(244,114,182,.15)}
+
+.brand{display:flex;align-items:center;gap:11px;margin-bottom:26px}
+.brand-mark{
+  width:48px;height:48px;border-radius:16px;
+  background:linear-gradient(135deg,var(--teal),var(--lilac));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;flex-shrink:0;
+  box-shadow:var(--sh-teal);
+}
+.brand-name{
+  font-family:var(--fh);font-size:1.9rem;
+  background:linear-gradient(135deg,var(--tealdk) 0%,var(--lilac2) 60%,var(--blush3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;
+}
+.brand-sub{font-size:.6rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4);margin-top:3px}
+
+.hero-h{
+  font-family:var(--fh);font-size:2.5rem;
+  line-height:1.1;color:var(--ink);
+  margin-bottom:10px;
+}
+.hero-h span{
+  background:linear-gradient(135deg,var(--tealdk),var(--lilac2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-p{font-size:.84rem;color:var(--ink3);line-height:1.65;max-width:280px;font-weight:400}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  margin-top:16px;
+  background:linear-gradient(135deg,rgba(168,237,234,.4),rgba(199,125,255,.2));
+  border:1.5px solid rgba(199,125,255,.3);
+  border-radius:99px;padding:6px 16px;
+  font-size:.7rem;font-weight:700;color:var(--lilac3);
+  box-shadow:0 2px 12px rgba(199,125,255,.15);
+}
+
+/* ── SECTION LABEL ────────────────────────────────────── */
+.slabel{
+  font-size:.6rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--tealdk);
+  display:flex;align-items:center;gap:8px;
+  padding:22px 20px 0;
+}
+.slabel::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,rgba(168,237,234,.6),transparent)}
+
+/* ── LANGUAGE SCROLL ──────────────────────────────────── */
+.lscroll{display:flex;gap:8px;overflow-x:auto;padding:12px 20px 4px;scroll-snap-type:x mandatory}
+.lscroll::-webkit-scrollbar{display:none}
+.lbtn{
+  flex-shrink:0;scroll-snap-align:start;
+  padding:9px 16px;border-radius:var(--r-sm);
+  border:1.5px solid rgba(168,237,234,.5);
+  background:var(--white);color:var(--ink3);
+  font-family:var(--fb);font-size:.78rem;font-weight:600;
+  cursor:pointer;white-space:nowrap;transition:all .2s;
+  box-shadow:var(--sh-soft);
+  -webkit-tap-highlight-color:transparent;
+}
+.lbtn.sel{
+  background:linear-gradient(135deg,rgba(168,237,234,.35),rgba(199,125,255,.15));
+  border-color:rgba(199,125,255,.4);
+  color:var(--lilac3);
+  box-shadow:0 3px 14px rgba(199,125,255,.18);
+}
+
+/* ── ACTION CARDS ─────────────────────────────────────── */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 20px 0}
+.acard{
+  border-radius:var(--r);padding:20px 16px;cursor:pointer;
+  background:var(--white);border:1.5px solid var(--border);
+  box-shadow:var(--sh-card);
+  transition:all .22s cubic-bezier(.16,1,.3,1);
+  -webkit-tap-highlight-color:transparent;position:relative;overflow:hidden;
+}
+.acard::before{
+  content:'';position:absolute;top:-30px;right:-30px;
+  width:90px;height:90px;border-radius:50%;opacity:.5;
+  transition:all .3s;
+}
+.acard:active{transform:scale(.96)}
+.acard.full{grid-column:1/-1}
+.acard.teal-card{
+  background:linear-gradient(145deg,#E8FFFE,#D0FAF8);
+  border-color:rgba(78,201,196,.3);
+}
+.acard.teal-card::before{background:var(--teal)}
+.acard.lilac-card{
+  background:linear-gradient(145deg,#F8F0FF,#F0E4FF);
+  border-color:rgba(199,125,255,.25);
+}
+.acard.lilac-card::before{background:var(--lilaclt)}
+.acard.blush-card{
+  background:linear-gradient(145deg,#FFF3F8,#FFE8F2);
+  border-color:rgba(244,114,182,.2);
+}
+.acard.blush-card::before{background:var(--blush)}
+.ac-arr{
+  position:absolute;top:14px;right:14px;
+  width:24px;height:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.75rem;
+}
+.acard.teal-card .ac-arr{background:rgba(78,201,196,.2);color:var(--tealdk)}
+.acard.lilac-card .ac-arr{background:rgba(199,125,255,.2);color:var(--lilac3)}
+.acard.blush-card .ac-arr{background:rgba(244,114,182,.18);color:var(--blushtxt)}
+.ac-icon{font-size:1.7rem;display:block;margin-bottom:10px}
+.ac-title{font-size:.88rem;font-weight:700}
+.ac-desc{font-size:.7rem;margin-top:3px;line-height:1.45}
+.acard.teal-card .ac-title{color:var(--tealtxt)}
+.acard.teal-card .ac-desc{color:var(--tealdk);opacity:.8}
+.acard.lilac-card .ac-title{color:var(--lilactxt)}
+.acard.lilac-card .ac-desc{color:var(--lilac2);opacity:.8}
+.acard.blush-card .ac-title{color:var(--blushtxt)}
+.acard.blush-card .ac-desc{color:var(--blush3);opacity:.8}
+
+/* ── PAGE HEADER ──────────────────────────────────────── */
+.ph{
+  display:flex;align-items:center;gap:12px;
+  padding:16px 20px 8px;
+  position:sticky;top:0;z-index:10;
+  background:rgba(250,255,254,.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1.5px solid rgba(168,237,234,.35);
+}
+.ph h2{
+  font-family:var(--fh);font-size:1.4rem;
+  background:linear-gradient(135deg,var(--tealdk),var(--lilac2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.bbtn{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--white);border:1.5px solid rgba(168,237,234,.6);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--ink2);font-size:1rem;flex-shrink:0;
+  box-shadow:var(--sh-soft);transition:all .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.bbtn:active{background:var(--teal);transform:scale(.9)}
+
+/* ── STEP TRACK ───────────────────────────────────────── */
+.strack{display:flex;align-items:center;gap:5px;padding:12px 20px 0}
+.sd{height:5px;border-radius:99px;background:rgba(168,237,234,.4);transition:all .3s;flex:1}
+.sd.done{background:var(--teal3)}
+.sd.cur{background:linear-gradient(90deg,var(--lilac),var(--blush3));flex:2.2;box-shadow:0 2px 8px rgba(199,125,255,.3)}
+.stxt{font-size:.64rem;color:var(--ink4);font-weight:600;margin-left:6px;white-space:nowrap}
+
+/* ── SECTION HEAD ─────────────────────────────────────── */
+.sh{font-family:var(--fh);font-size:1.2rem;color:var(--ink);padding:20px 20px 0}
+.sn{font-size:.75rem;color:var(--ink3);padding:5px 20px 0;line-height:1.55;font-weight:400}
+
+/* ── CHIPS ────────────────────────────────────────────── */
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px 0}
+.chip{
+  padding:9px 18px;border-radius:99px;
+  border:1.5px solid rgba(168,237,234,.5);
+  background:var(--white);font-size:.79rem;font-weight:600;
+  cursor:pointer;color:var(--ink3);transition:all .2s;
+  box-shadow:var(--sh-soft);-webkit-tap-highlight-color:transparent;
+}
+.chip.active{
+  background:linear-gradient(135deg,var(--lilac),var(--blush3));
+  border-color:transparent;color:#fff;
+  box-shadow:var(--sh-lilac);
+}
+
+/* ── CROP GRID ────────────────────────────────────────── */
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:14px 20px 0}
+.citem{
+  background:var(--white);border:1.5px solid rgba(168,237,234,.45);
+  border-radius:var(--r-sm);padding:14px 8px;
+  text-align:center;cursor:pointer;box-shadow:var(--sh-soft);
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.citem:active{transform:scale(.94)}
+.citem.sel{
+  background:linear-gradient(145deg,#F0FFFE,#E4F9F8);
+  border-color:var(--teal3);
+  box-shadow:0 4px 18px rgba(78,201,196,.25);
+}
+.citem span{font-size:1.7rem;display:block;margin-bottom:5px}
+.citem p{font-size:.67rem;font-weight:700;color:var(--ink3)}
+.citem.sel p{color:var(--tealtxt)}
+
+/* ── UPLOAD ZONES ─────────────────────────────────────── */
+.uzone{
+  margin:16px 20px 0;
+  border:2px dashed rgba(199,125,255,.3);
+  border-radius:var(--r);
+  background:linear-gradient(145deg,rgba(243,232,255,.3),rgba(168,237,234,.15));
+  padding:34px 20px;text-align:center;
+  cursor:pointer;transition:all .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.uzone:active{border-color:var(--lilac);background:rgba(199,125,255,.08)}
+.uz-ic{font-size:2.2rem;display:block;margin-bottom:10px}
+.uzone h4{font-size:.9rem;font-weight:700;color:var(--ink2)}
+.uzone p{font-size:.73rem;color:var(--ink3);margin-top:4px}
+.orline{
+  display:flex;align-items:center;gap:10px;
+  font-size:.7rem;color:var(--ink4);font-weight:600;
+  margin:14px 20px 0;
+}
+.orline::before,.orline::after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,rgba(168,237,234,.5),rgba(199,125,255,.3))}
+.iprev{
+  margin:16px 20px 0;border-radius:var(--r);
+  height:175px;background:linear-gradient(145deg,#EEF9F6,#F5EEFF);
+  border:1.5px solid rgba(168,237,234,.4);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.iprev img{width:100%;height:100%;object-fit:cover;display:none}
+.iprev .iph{font-size:2.5rem;opacity:.3}
+
+/* ── BUTTONS ──────────────────────────────────────────── */
+.btn{
+  display:block;width:calc(100% - 40px);
+  margin:14px 20px 0;padding:15px;
+  border:none;border-radius:var(--r-sm);
+  font-family:var(--fb);font-size:.92rem;font-weight:700;
+  letter-spacing:.02em;cursor:pointer;transition:all .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-lilac{
+  background:linear-gradient(135deg,var(--lilac),var(--blush3));
+  color:#fff;box-shadow:var(--sh-lilac);
+}
+.btn-lilac:active{transform:scale(.97);box-shadow:none}
+.btn-teal{
+  background:linear-gradient(135deg,var(--teal3),var(--tealdk));
+  color:#fff;box-shadow:var(--sh-teal);
+}
+.btn-teal:active{transform:scale(.97)}
+.btn-out{
+  background:transparent;color:var(--lilac3);
+  border:1.5px solid rgba(199,125,255,.4);
+  box-shadow:none;
+}
+.btn-out:active{background:var(--lilaclt)}
+
+/* ── PROCESSING ───────────────────────────────────────── */
+.proc{
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;min-height:80dvh;padding:40px;text-align:center;
+}
+.pring{width:90px;height:90px;position:relative;margin-bottom:24px}
+.pring svg{width:100%;height:100%;animation:spinR 2.2s linear infinite}
+@keyframes spinR{to{transform:rotate(360deg)}}
+.pemoji{
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:2rem;
+  animation:gentlepulse 1.6s ease-in-out infinite;
+}
+@keyframes gentlepulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.ptitle{font-family:var(--fh);font-size:1.5rem;color:var(--ink);margin-bottom:6px}
+.psub{font-size:.8rem;color:var(--ink3)}
+.ptrack{width:100%;height:6px;background:rgba(168,237,234,.3);border-radius:99px;margin-top:24px;overflow:hidden}
+.pfill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal3),var(--lilac),var(--blush3));animation:pfup 2.6s ease forwards}
+@keyframes pfup{from{width:0}to{width:93%}}
+
+/* ── RESULT BANNER ────────────────────────────────────── */
+.rbanner{
+  margin:16px 20px 0;border-radius:var(--r);padding:24px;
+  background:linear-gradient(145deg,#E4F9F8,#F0E8FF,#FFF0F8);
+  border:1.5px solid rgba(168,237,234,.5);
+  position:relative;overflow:hidden;
+  box-shadow:0 6px 30px rgba(168,237,234,.3);
+}
+.rbanner::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:130px;height:130px;border-radius:50%;
+  background:radial-gradient(circle,rgba(199,125,255,.15),transparent 65%);
+}
+.rbanner::after{
+  content:'';position:absolute;bottom:-30px;left:-20px;
+  width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle,rgba(168,237,234,.2),transparent 65%);
+}
+.cring{width:74px;height:74px;position:relative;margin-bottom:12px;display:inline-block}
+.cring svg{width:100%;height:100%}
+.cval{
+  position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:1rem;font-weight:800;
+  color:var(--lilac3);font-family:var(--fb);
+}
+.rdis{font-family:var(--fh);font-size:1.5rem;color:var(--ink);margin-bottom:4px;line-height:1.1}
+.rcrop{font-size:.77rem;color:var(--tealdk);font-weight:600}
+.rbadges{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.rbadge{
+  padding:5px 13px;border-radius:99px;font-size:.68rem;font-weight:700;
+  background:rgba(255,255,255,.7);color:var(--ink2);
+  border:1.5px solid rgba(168,237,234,.5);
+  backdrop-filter:blur(4px);
+}
+.rbadge.high{background:rgba(255,240,246,.8);color:var(--blushtxt);border-color:rgba(244,114,182,.3)}
+.rbadge.med{background:rgba(254,249,195,.8);color:#713F12;border-color:rgba(253,224,71,.4)}
+.rbadge.low{background:rgba(209,250,229,.8);color:#065F46;border-color:rgba(52,211,153,.35)}
+
+/* ── AUDIO BAR ────────────────────────────────────────── */
+.abar{
+  margin:12px 20px 0;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  background:var(--white);border:1.5px solid rgba(168,237,234,.4);
+  border-radius:var(--r-sm);box-shadow:var(--sh-soft);
+}
+.playbtn{
+  width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lilac),var(--blush3));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:1.1rem;flex-shrink:0;
+  box-shadow:var(--sh-lilac);-webkit-tap-highlight-color:transparent;
+}
+.wwrap{flex:1}
+.wbars{display:flex;gap:3px;align-items:center;height:28px}
+.wb{
+  flex:1;border-radius:3px;
+  background:linear-gradient(to top,var(--teal3),var(--lilac));
+  animation:wv 1.1s ease-in-out infinite;
+}
+.wb:nth-child(2){animation-delay:.12s}.wb:nth-child(3){animation-delay:.24s}
+.wb:nth-child(4){animation-delay:.36s}.wb:nth-child(5){animation-delay:.48s}
+.wb:nth-child(6){animation-delay:.60s}.wb:nth-child(7){animation-delay:.72s}
+.wb:nth-child(8){animation-delay:.84s}
+@keyframes wv{0%,100%{height:4px;opacity:.5}50%{height:22px;opacity:1}}
+.wbars.pause .wb{animation-play-state:paused}
+.albl{font-size:.67rem;color:var(--ink4);font-weight:600;margin-top:3px}
+
+/* ── TREATMENT TABS ───────────────────────────────────── */
+.ttabs{
+  display:flex;margin:18px 20px 0;
+  background:rgba(168,237,234,.2);border-radius:var(--r-sm);
+  padding:4px;border:1.5px solid rgba(168,237,234,.4);gap:0;
+}
+.ttab{
+  flex:1;padding:10px;border-radius:11px;border:none;
+  background:transparent;font-family:var(--fb);
+  font-size:.8rem;font-weight:700;cursor:pointer;color:var(--ink3);transition:all .22s;
+}
+.ttab.active{
+  background:linear-gradient(135deg,var(--lilac),var(--blush3));
+  color:#fff;box-shadow:0 3px 14px rgba(199,125,255,.3);
+}
+.tsteps{padding:14px 20px 0}
+.tstep{display:flex;gap:12px;margin-bottom:16px;animation:softrise .3s ease both}
+.tstep:nth-child(1){animation-delay:.04s}.tstep:nth-child(2){animation-delay:.1s}
+.tstep:nth-child(3){animation-delay:.16s}.tstep:nth-child(4){animation-delay:.22s}
+.tnum{
+  width:27px;height:27px;border-radius:50%;flex-shrink:0;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--lilac),var(--blush3));
+  box-shadow:0 2px 10px rgba(199,125,255,.3);
+}
+.ttxt{font-size:.83rem;color:var(--ink3);line-height:1.65;font-weight:400}
+
+/* ── EXPERT BOX ───────────────────────────────────────── */
+.expbox{
+  margin:16px 20px 0;padding:18px;
+  background:linear-gradient(135deg,rgba(254,249,195,.5),rgba(253,224,71,.1));
+  border:1.5px solid rgba(253,211,77,.4);border-radius:var(--r-sm);
+}
+.expbox h4{font-size:.88rem;font-weight:700;color:#713F12}
+.expbox p{font-size:.77rem;color:#854D0E;margin-top:5px;line-height:1.55;font-weight:400}
+
+/* ── WEATHER ──────────────────────────────────────────── */
+.whero{
+  margin:16px 20px 0;border-radius:var(--r);padding:26px;
+  background:linear-gradient(145deg,#D0FFFE,#E8D5FF,#FFE4F0);
+  border:1.5px solid rgba(168,237,234,.5);text-align:center;
+  position:relative;overflow:hidden;
+  box-shadow:0 6px 28px rgba(168,237,234,.25);
+}
+.wtemp{font-family:var(--fh);font-size:3.5rem;color:var(--ink);position:relative}
+.wcity{font-size:.75rem;color:var(--tealdk);margin-top:4px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;position:relative}
+.wicon{font-size:2.2rem;margin-top:8px;position:relative}
+
+.icard{
+  margin:0 20px 12px;padding:16px;
+  background:var(--white);border:1.5px solid rgba(168,237,234,.4);
+  border-radius:var(--r-sm);display:flex;gap:14px;align-items:flex-start;
+  box-shadow:var(--sh-soft);
+}
+.iico{
+  width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;
+}
+.iico.t{background:linear-gradient(135deg,rgba(168,237,234,.4),rgba(78,201,196,.15))}
+.iico.l{background:linear-gradient(135deg,rgba(243,232,255,.6),rgba(199,125,255,.15))}
+.iico.b{background:linear-gradient(135deg,rgba(254,214,227,.5),rgba(244,114,182,.12))}
+.icard h4{font-size:.87rem;font-weight:700;color:var(--ink2);margin-bottom:4px}
+.icard p{font-size:.77rem;color:var(--ink3);line-height:1.55;font-weight:400}
+
+/* ── ALERTS ───────────────────────────────────────────── */
+.alcard{
+  margin:0 20px 12px;padding:15px 16px;
+  border-radius:var(--r-sm);display:flex;gap:13px;
+  background:var(--white);border:1.5px solid rgba(168,237,234,.4);
+  border-left:3.5px solid var(--blush3);box-shadow:var(--sh-soft);
+}
+.alcard.crit{border-left-color:#EF4444}
+.alcard.sky{border-left-color:var(--teal3)}
+.alcard.soft{border-left-color:var(--lilac)}
+.alcard h4{font-size:.87rem;font-weight:700;color:var(--ink2)}
+.alcard p{font-size:.76rem;color:var(--ink3);margin-top:3px;line-height:1.5;font-weight:400}
+.altime{font-size:.62rem;color:var(--ink4);margin-top:5px;font-weight:600;letter-spacing:.04em}
+
+/* ── HISTORY ──────────────────────────────────────────── */
+.hcard{
+  margin:0 20px 11px;padding:14px 16px;
+  background:var(--white);border:1.5px solid rgba(168,237,234,.4);
+  border-radius:var(--r-sm);display:flex;gap:13px;align-items:center;
+  cursor:pointer;transition:all .18s;box-shadow:var(--sh-soft);
+  -webkit-tap-highlight-color:transparent;
+}
+.hcard:active{transform:scale(.97)}
+.hico{
+  width:46px;height:46px;border-radius:var(--r-sm);
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(168,237,234,.35),rgba(199,125,255,.15));
+  border:1.5px solid rgba(168,237,234,.4);
+}
+.hbody{flex:1}
+.hbody h4{font-size:.89rem;font-weight:700;color:var(--ink2)}
+.hbody p{font-size:.76rem;color:var(--ink3);margin-top:2px;font-weight:400}
+.hbody small{font-size:.64rem;color:var(--ink4);font-weight:600}
+.hbadge{padding:4px 11px;border-radius:99px;font-size:.64rem;font-weight:700;white-space:nowrap}
+.hbadge.high{background:rgba(255,240,246,.8);color:var(--blushtxt);border:1px solid rgba(244,114,182,.25)}
+.hbadge.medium{background:rgba(254,249,195,.8);color:#713F12;border:1px solid rgba(253,224,71,.4)}
+.hbadge.low{background:rgba(209,250,229,.8);color:#065F46;border:1px solid rgba(52,211,153,.35)}
+
+/* ── MISC ─────────────────────────────────────────────── */
+.divider{height:1.5px;background:linear-gradient(90deg,rgba(168,237,234,.4),rgba(199,125,255,.2),transparent);margin:16px 20px}
+.empty{text-align:center;padding:60px 30px;color:var(--ink4)}
+.empty span{font-size:3rem;display:block;margin-bottom:14px;opacity:.35}
+.empty p{font-size:.84rem;line-height:1.6}
+.small-note{font-size:.71rem;color:var(--ink4);padding:6px 20px 0;text-align:center;font-weight:500}
+.mt12{margin-top:12px}.mt16{margin-top:16px}.mt20{margin-top:20px}
+</style>
+</head>
+<body>
+<div class="blobs">
+  <div class="blob bl1"></div><div class="blob bl2"></div>
+  <div class="blob bl3"></div><div class="blob bl4"></div><div class="blob bl5"></div>
+</div>
+
+<!-- ████████████ HOME ████████████████████████████████████ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="pring pr1"></div><div class="pring pr2"></div><div class="pring pr3"></div>
+    <div class="brand">
+      <div class="brand-mark">🌾</div>
+      <div>
+        <div class="brand-name">CropDoc</div>
+        <div class="brand-sub" data-key="tagline">Smart Crop Doctor</div>
+      </div>
+    </div>
+    <div class="hero-h">Heal your<br><span>harvest.</span></div>
+    <p class="hero-p" data-key="heroSub">AI-powered crop disease detection built for every Indian farmer. Works on 2G.</p>
+    <div class="hero-pill">🛰 <span data-key="aiPill">2G Ready · Multilingual AI</span></div>
+  </div>
+
+  <div class="slabel" data-key="chooseLang">Choose Language</div>
+  <div class="lscroll" id="langScroll"></div>
+
+  <div class="slabel mt12" data-key="whatNext">What would you like to do?</div>
+  <div class="agrid">
+    <div class="acard teal-card full" onclick="goTo('diagnose')">
+      <div class="ac-arr">→</div>
+      <span class="ac-icon">🔬</span>
+      <div class="ac-title" data-key="diagnoseBtn">Diagnose My Crop</div>
+      <div class="ac-desc" data-key="diagnoseDesc">Upload a photo or scan live — instant AI results</div>
+    </div>
+    <div class="acard lilac-card" onclick="goTo('weather')">
+      <div class="ac-arr">→</div>
+      <span class="ac-icon">🌦️</span>
+      <div class="ac-title" data-key="weatherBtn">Weather Risks</div>
+      <div class="ac-desc" data-key="weatherDesc">Season disease alerts</div>
+    </div>
+    <div class="acard blush-card" onclick="goTo('alerts')">
+      <div class="ac-arr">→</div>
+      <span class="ac-icon">🔔</span>
+      <div class="ac-title" data-key="alertsBtn">Alerts</div>
+      <div class="ac-desc" data-key="alertsDesc">Outbreak warnings</div>
+    </div>
+  </div>
+  <div style="height:10px"></div>
+</div>
+
+<!-- ████████████ DIAGNOSE S1 ██████████████████████████████ -->
+<div id="page-diagnose" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('home')">←</button><h2 data-key="dTitle">Diagnose Crop</h2></div>
+  <div class="strack">
+    <div class="sd cur"></div><div class="sd"></div><div class="sd"></div><div class="sd"></div>
+    <span class="stxt" data-key="s1of4">Step 1 of 4</span>
+  </div>
+  <div class="sh" data-key="selSeason">Select Season</div>
+  <p class="sn" data-key="seasonNote">Choose your current growing season</p>
+  <div class="chips">
+    <div class="chip active" onclick="setSeason('summer',this)" data-key="summer">☀️ Summer</div>
+    <div class="chip" onclick="setSeason('monsoon',this)" data-key="monsoon">🌧️ Monsoon</div>
+    <div class="chip" onclick="setSeason('winter',this)" data-key="winter">❄️ Winter</div>
+    <div class="chip" onclick="setSeason('rabi',this)" data-key="rabi">🌱 Rabi</div>
+  </div>
+  <button class="btn btn-lilac" onclick="goToCrop()" data-key="nextCrop">Next: Pick Crop →</button>
+</div>
+
+<!-- ████████████ DIAGNOSE S2 ██████████████████████████████ -->
+<div id="page-crop" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('diagnose')">←</button><h2 data-key="cropTitle">Select Crop</h2></div>
+  <div class="strack">
+    <div class="sd done"></div><div class="sd cur"></div><div class="sd"></div><div class="sd"></div>
+    <span class="stxt" data-key="s2of4">Step 2 of 4</span>
+  </div>
+  <div class="sh" data-key="pickCrop">Pick your crop</div>
+  <div class="cgrid" id="cropGrid"></div>
+  <button class="btn btn-lilac" onclick="goToUpload()" data-key="nextUpload">Next: Upload Image →</button>
+</div>
+
+<!-- ████████████ DIAGNOSE S3 ██████████████████████████████ -->
+<div id="page-upload" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('crop')">←</button><h2 data-key="uploadTitle">Upload Image</h2></div>
+  <div class="strack">
+    <div class="sd done"></div><div class="sd done"></div><div class="sd cur"></div><div class="sd"></div>
+    <span class="stxt" data-key="s3of4">Step 3 of 4</span>
+  </div>
+  <div class="iprev" id="imgPrev">
+    <span class="iph">🖼️</span><img id="prevImg" alt="crop"/>
+  </div>
+  <div class="uzone mt16" onclick="document.getElementById('fi').click()">
+    <span class="uz-ic">📁</span>
+    <h4 data-key="upTitle">Tap to upload photo</h4>
+    <p data-key="upDesc">JPG or PNG · up to 5 MB</p>
+  </div>
+  <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleImg(event)"/>
+  <div class="orline" data-key="orSep">or</div>
+  <div class="uzone" onclick="document.getElementById('ci').click()">
+    <span class="uz-ic">📷</span>
+    <h4 data-key="camTitle">Open Camera</h4>
+    <p data-key="camDesc">Point at the affected leaf or stem</p>
+  </div>
+  <input type="file" id="ci" accept="image/*" capture="environment" style="display:none" onchange="handleImg(event)"/>
+  <button class="btn btn-teal" onclick="runAnalysis()" data-key="analyzeBtn">🔬 Analyze Now</button>
+  <p class="small-note" data-key="analyzeNote">Works on 2G · avg. ~15 seconds</p>
+</div>
+
+<!-- ████████████ PROCESSING ███████████████████████████████ -->
+<div id="page-processing" class="page">
+  <div class="proc">
+    <div class="pring">
+      <svg viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(168,237,234,.3)" stroke-width="5"/>
+        <circle cx="40" cy="40" r="34" fill="none" stroke="url(#rg)" stroke-width="5"
+          stroke-linecap="round" stroke-dasharray="85 130"/>
+        <defs>
+          <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#A8EDEA"/>
+            <stop offset="50%" stop-color="#C77DFF"/>
+            <stop offset="100%" stop-color="#F472B6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="pemoji">🌸</div>
+    </div>
+    <div class="ptitle" data-key="procTitle">Analyzing your crop…</div>
+    <p class="psub" data-key="procSub">AI is scanning for disease patterns</p>
+    <div class="ptrack"><div class="pfill" id="pf"></div></div>
+  </div>
+</div>
+
+<!-- ████████████ RESULTS ██████████████████████████████████ -->
+<div id="page-results" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('diagnose')">←</button><h2 data-key="resTitle">Results</h2></div>
+  <div class="rbanner">
+    <div style="display:flex;gap:16px;align-items:center">
+      <div class="cring">
+        <svg viewBox="0 0 74 74">
+          <circle cx="37" cy="37" r="31" fill="none" stroke="rgba(168,237,234,.3)" stroke-width="6"/>
+          <circle cx="37" cy="37" r="31" fill="none" stroke="url(#cg)" stroke-width="6"
+            stroke-linecap="round" id="confArc" stroke-dasharray="0 195"/>
+          <defs>
+            <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#A8EDEA"/>
+              <stop offset="50%" stop-color="#C77DFF"/>
+              <stop offset="100%" stop-color="#F472B6"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="cval" id="confVal">—</div>
+      </div>
+      <div>
+        <p style="font-size:.65rem;color:var(--tealdk);letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:4px" data-key="aiConf">AI Confidence</p>
+        <div class="rdis" id="rDis">—</div>
+        <div class="rcrop" id="rCrop">—</div>
+      </div>
+    </div>
+    <div class="rbadges" id="rBadges"></div>
+  </div>
+
+  <div class="abar">
+    <button class="playbtn" onclick="toggleTTS(this)" id="playBtn">▶</button>
+    <div class="wwrap">
+      <div class="wbars pause" id="waveB">
+        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+        <div class="wb"></div><div class="wb"></div><div class="wb"></div>
+        <div class="wb"></div><div class="wb"></div>
+      </div>
+      <div class="albl" data-key="audioLbl">Listen to your diagnosis</div>
+    </div>
+  </div>
+
+  <div class="expbox" id="expertBox" style="display:none">
+    <h4>⚠️ <span data-key="expTitle">Low Confidence — Expert Review</span></h4>
+    <p data-key="expDesc">AI confidence is below 60%. A certified agronomist will review your image and SMS you within 24 hours.</p>
+    <button class="btn btn-out" style="width:auto;display:inline-block;padding:9px 20px;margin:10px 0 0;font-size:.82rem" onclick="requestExpert()" data-key="expBtn">Request Expert →</button>
+  </div>
+
+  <div class="divider"></div>
+  <div class="ttabs">
+    <button class="ttab active" onclick="switchTreat('organic',this)" data-key="orgTab">🌿 Organic</button>
+    <button class="ttab" onclick="switchTreat('chemical',this)" data-key="chemTab">🧪 Chemical</button>
+  </div>
+  <div class="tsteps" id="tContent"></div>
+  <button class="btn btn-out" onclick="goTo('home')" data-key="goHome">← Back to Home</button>
+  <div style="height:10px"></div>
+</div>
+
+<!-- ████████████ WEATHER ███████████████████████████████████ -->
+<div id="page-weather" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('home')">←</button><h2 data-key="wTitle">Weather Risks</h2></div>
+  <div class="whero">
+    <div class="wtemp">34°C</div>
+    <div class="wcity" data-key="wCity">Chennai · Tamil Nadu · Monsoon</div>
+    <div class="wicon">⛈️</div>
+  </div>
+  <div class="slabel mt20" data-key="seasRisks">Seasonal Risks</div>
+  <div class="icard mt12">
+    <div class="iico t">🌾</div>
+    <div>
+      <h4 data-key="curSeas">Current Season: Monsoon</h4>
+      <p data-key="seasDis">High risk of Leaf Blight, Blast Disease, and Brown Spot in paddy. Humidity above 80% accelerates fungal spread.</p>
+    </div>
+  </div>
+  <div class="icard">
+    <div class="iico l">📅</div>
+    <div>
+      <h4 data-key="thisMon">This Month: March</h4>
+      <p data-key="monDis">Watch for Sheath Rot in rice and Early Blight in tomato. Apply preventive fungicide before flowering.</p>
+    </div>
+  </div>
+  <div class="slabel" data-key="farmTips">Farmer Tips</div>
+  <div class="icard mt12">
+    <div class="iico b">💧</div>
+    <div>
+      <h4 data-key="tipH">Water Management</h4>
+      <p data-key="tipB">Avoid waterlogging. Ensure drainage during heavy rain to prevent root diseases and soil fungal infections.</p>
+    </div>
+  </div>
+  <button class="btn btn-out" onclick="goTo('home')" data-key="goHome2">← Back to Home</button>
+  <div style="height:8px"></div>
+</div>
+
+<!-- ████████████ ALERTS ████████████████████████████████████ -->
+<div id="page-alerts" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('home')">←</button><h2 data-key="aTitle">Alerts</h2></div>
+  <div class="mt16">
+    <div class="alcard crit">
+      <span style="font-size:1.4rem">🚨</span>
+      <div><h4 data-key="a1h">Blast Disease Outbreak</h4><p data-key="a1p">Reported in Thanjavur & Tiruvarur. Rice farmers: spray tricyclazole immediately.</p><div class="altime">2 hours ago</div></div>
+    </div>
+    <div class="alcard sky">
+      <span style="font-size:1.4rem">⛈️</span>
+      <div><h4 data-key="a2h">Heavy Rain Warning</h4><p data-key="a2p">IMD predicts 3–4 days of heavy rainfall. Delay pesticide sprays — washoff risk is high.</p><div class="altime">5 hours ago</div></div>
+    </div>
+    <div class="alcard soft">
+      <span style="font-size:1.4rem">📢</span>
+      <div><h4 data-key="a3h">Free Soil Test Camp</h4><p data-key="a3p">Government camp at your nearest KVK this Saturday, 9 AM – 2 PM.</p><div class="altime">Yesterday</div></div>
+    </div>
+    <div class="alcard">
+      <span style="font-size:1.4rem">🌱</span>
+      <div><h4 data-key="a4h">New Blight-Resistant Variety</h4><p data-key="a4p">CO-51 paddy variety now at cooperative stores. Higher yield in monsoon conditions.</p><div class="altime">2 days ago</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████████████ HISTORY ███████████████████████████████████ -->
+<div id="page-history" class="page">
+  <div class="ph"><button class="bbtn" onclick="goTo('home')">←</button><h2 data-key="hTitle">History</h2></div>
+  <div id="histList" class="mt16"></div>
+</div>
+
+<!-- ████████████ NAV ███████████████████████████████████████ -->
+<nav class="nav">
+  <div class="ni active" id="nav-home" onclick="goTo('home')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    <span data-key="navHome">Home</span><div class="ni-pip"></div>
+  </div>
+  <div class="ni" id="nav-alerts" onclick="goTo('alerts')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+    <span data-key="navAlerts">Alerts</span><div class="ni-pip"></div>
+  </div>
+  <div class="ni" id="nav-history" onclick="goTo('history')">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+    <span data-key="navHistory">History</span><div class="ni-pip"></div>
+  </div>
+</nav>
+
+<script>
+const LANGS={
+  en:{flag:'🇬🇧',label:'English',k:{tagline:'Smart Crop Doctor',heroSub:'AI-powered crop disease detection built for every Indian farmer. Works on 2G.',aiPill:'2G Ready · Multilingual AI',chooseLang:'Choose Language',whatNext:'What would you like to do?',diagnoseBtn:'Diagnose My Crop',diagnoseDesc:'Upload a photo or scan live — instant AI results',weatherBtn:'Weather Risks',weatherDesc:'Season disease alerts',alertsBtn:'Alerts',alertsDesc:'Outbreak warnings',dTitle:'Diagnose Crop',selSeason:'Select Season',seasonNote:'Choose your current growing season',summer:'☀️ Summer',monsoon:'🌧️ Monsoon',winter:'❄️ Winter',rabi:'🌱 Rabi',nextCrop:'Next: Pick Crop →',cropTitle:'Select Crop',pickCrop:'Pick your crop',nextUpload:'Next: Upload Image →',uploadTitle:'Upload Image',upTitle:'Tap to upload photo',upDesc:'JPG or PNG · up to 5 MB',orSep:'or',camTitle:'Open Camera',camDesc:'Point at the affected leaf or stem',analyzeBtn:'🔬 Analyze Now',analyzeNote:'Works on 2G · avg. ~15 seconds',s1of4:'Step 1 of 4',s2of4:'Step 2 of 4',s3of4:'Step 3 of 4',procTitle:'Analyzing your crop…',procSub:'AI is scanning for disease patterns',resTitle:'Results',aiConf:'AI Confidence',audioLbl:'Listen to your diagnosis',expTitle:'Low Confidence — Expert Review',expDesc:'AI confidence below 60%. An agronomist will review & SMS you within 24 hrs.',expBtn:'Request Expert →',orgTab:'🌿 Organic',chemTab:'🧪 Chemical',goHome:'← Back to Home',goHome2:'← Back to Home',wTitle:'Weather Risks',wCity:'Chennai · Tamil Nadu · Monsoon',seasRisks:'Seasonal Risks',curSeas:'Current Season: Monsoon',seasDis:'High risk of Leaf Blight, Blast Disease, and Brown Spot in paddy. Humidity above 80% accelerates fungal spread.',thisMon:'This Month: March',monDis:'Watch for Sheath Rot in rice and Early Blight in tomato. Apply preventive fungicide before flowering.',farmTips:'Farmer Tips',tipH:'Water Management',tipB:'Avoid waterlogging. Ensure drainage during heavy rain to prevent root diseases.',aTitle:'Alerts',a1h:'Blast Disease Outbreak',a1p:'Reported in Thanjavur & Tiruvarur. Rice farmers: spray tricyclazole immediately.',a2h:'Heavy Rain Warning',a2p:'IMD predicts 3–4 days of heavy rainfall. Delay pesticide sprays.',a3h:'Free Soil Test Camp',a3p:'Government camp at your nearest KVK this Saturday, 9 AM – 2 PM.',a4h:'New Blight-Resistant Variety',a4p:'CO-51 paddy variety now at cooperative stores.',hTitle:'History',navHome:'Home',navAlerts:'Alerts',navHistory:'History'}},
+  ta:{flag:'🌿',label:'தமிழ்',k:{tagline:'திறமையான பயிர் மருத்துவர்',heroSub:'இந்திய விவசாயிகளுக்கான AI நோய் கண்டறிவி. 2G இல் வேலை செய்கிறது.',aiPill:'2G தயார் · பல மொழி AI',chooseLang:'மொழி தேர்வு',whatNext:'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',diagnoseBtn:'என் பயிரை கண்டறி',diagnoseDesc:'படம் ஏற்று அல்லது நேரடி ஸ்கேன்',weatherBtn:'வானிலை அபாயங்கள்',weatherDesc:'பருவ நோய் எச்சரிக்கை',alertsBtn:'எச்சரிக்கைகள்',alertsDesc:'நோய் தொற்று எச்சரிக்கை',dTitle:'பயிர் கண்டறிவு',selSeason:'பருவம் தேர்வு',seasonNote:'உங்கள் பருவத்தை தேர்ந்தெடுக்கவும்',summer:'☀️ கோடை',monsoon:'🌧️ மழைக்காலம்',winter:'❄️ குளிர்காலம்',rabi:'🌱 ரபி',nextCrop:'அடுத்து: பயிர் தேர்வு →',cropTitle:'பயிர் தேர்வு',pickCrop:'உங்கள் பயிரை தேர்ந்தெடுக்கவும்',nextUpload:'அடுத்து: படம் ஏற்று →',uploadTitle:'படம் ஏற்று',upTitle:'படத்தை ஏற்ற தொடவும்',upDesc:'JPG அல்லது PNG · 5 MB வரை',orSep:'அல்லது',camTitle:'கேமரா திற',camDesc:'பாதிக்கப்பட்ட இலை அல்லது தண்டை நோக்கவும்',analyzeBtn:'🔬 இப்போது பகுப்பாய்வு',analyzeNote:'2G இல் வேலை · சராசரி ~15 வினாடி',s1of4:'படி 1 / 4',s2of4:'படி 2 / 4',s3of4:'படி 3 / 4',procTitle:'உங்கள் பயிரை பகுப்பாய்வு செய்கிறோம்…',procSub:'AI நோய் முறைகளை கண்டறிகிறது',resTitle:'முடிவுகள்',aiConf:'AI நம்பகத்தன்மை',audioLbl:'உங்கள் கண்டறிவை கேளுங்கள்',expTitle:'குறைந்த நம்பகத்தன்மை — நிபுணர் மதிப்பாய்வு',expDesc:'AI நம்பகத்தன்மை 60% க்கும் குறைவு.',expBtn:'நிபுணர் கோருக →',orgTab:'🌿 இயற்கை',chemTab:'🧪 வேதியியல்',goHome:'← முகப்புக்கு திரும்பு',goHome2:'← முகப்புக்கு திரும்பு',wTitle:'வானிலை அபாயங்கள்',wCity:'சென்னை · தமிழ்நாடு · மழைக்காலம்',seasRisks:'பருவ நோய் அபாயங்கள்',curSeas:'தற்போதைய பருவம்: மழைக்காலம்',seasDis:'நெல் வயல்களில் இலை தீ, வெடிப்பு நோய் அதிக ஆபத்து.',thisMon:'இந்த மாதம்: மார்ச்',monDis:'நெல்லில் ஷீத் ராட் மற்றும் தக்காளியில் ஆர்லி ப்ளைட் கவனியுங்கள்.',farmTips:'விவசாயி குறிப்புகள்',tipH:'நீர் மேலாண்மை',tipB:'நீர்தேக்கத்தை தவிர்க்கவும்.',aTitle:'எச்சரிக்கைகள்',a1h:'வெடிப்பு நோய் தொற்று',a1p:'தஞ்சாவூர் & திருவாரூரில் தெரிவிக்கப்பட்டது.',a2h:'கனமழை எச்சரிக்கை',a2p:'IMD 3-4 நாட்கள் கனமழை கணிக்கிறது.',a3h:'இலவச மண் சோதனை முகாம்',a3p:'இந்த சனிக்கிழமை அரசு மண் சோதனை முகாம்.',a4h:'புதிய பயிர் வகை',a4p:'CO-51 நெல் வகை கூட்டுறவு கடைகளில் கிடைக்கிறது.',hTitle:'கண்டறிவு வரலாறு',navHome:'முகப்பு',navAlerts:'எச்சரிக்கை',navHistory:'வரலாறு'}},
+  hi:{flag:'🇮🇳',label:'हिंदी',k:{tagline:'स्मार्ट फसल डॉक्टर',heroSub:'भारतीय किसानों के लिए AI फसल रोग पहचान। 2G पर काम करता है।',aiPill:'2G तैयार · बहुभाषी AI',chooseLang:'भाषा चुनें',whatNext:'आप क्या करना चाहते हैं?',diagnoseBtn:'फसल का निदान करें',diagnoseDesc:'फोटो अपलोड करें या लाइव स्कैन',weatherBtn:'मौसम जोखिम',weatherDesc:'मौसमी रोग अलर्ट',alertsBtn:'अलर्ट',alertsDesc:'प्रकोप चेतावनी',dTitle:'फसल निदान',selSeason:'मौसम चुनें',seasonNote:'रोग जोखिम कम करने के लिए मौसम चुनें',summer:'☀️ गर्मी',monsoon:'🌧️ मानसून',winter:'❄️ सर्दी',rabi:'🌱 रबी',nextCrop:'अगला: फसल चुनें →',cropTitle:'फसल चुनें',pickCrop:'अपनी फसल चुनें',nextUpload:'अगला: फोटो अपलोड →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड करने के लिए टैप करें',upDesc:'JPG या PNG · 5 MB तक',orSep:'या',camTitle:'कैमरा खोलें',camDesc:'प्रभावित पत्ती या तने पर इशारा करें',analyzeBtn:'🔬 अभी विश्लेषण करें',analyzeNote:'2G पर काम करता है · ~15 सेकंड औसत',s1of4:'चरण 1 / 4',s2of4:'चरण 2 / 4',s3of4:'चरण 3 / 4',procTitle:'आपकी फसल का विश्लेषण हो रहा है…',procSub:'AI रोग पैटर्न खोज रहा है',resTitle:'परिणाम',aiConf:'AI विश्वसनीयता',audioLbl:'अपना निदान सुनें',expTitle:'कम विश्वास — विशेषज्ञ समीक्षा',expDesc:'AI विश्वास 60% से कम। विशेषज्ञ 24 घंटे में SMS करेगा।',expBtn:'विशेषज्ञ समीक्षा →',orgTab:'🌿 जैविक',chemTab:'🧪 रासायनिक',goHome:'← होम पर वापस',goHome2:'← होम पर वापस',wTitle:'मौसम जोखिम',wCity:'चेन्नई · तमिलनाडु · मानसून',seasRisks:'मौसमी जोखिम',curSeas:'वर्तमान मौसम: मानसून',seasDis:'धान में पर्ण झुलसा, ब्लास्ट रोग का अधिक खतरा।',thisMon:'इस महीने: मार्च',monDis:'धान में शीथ रॉट और टमाटर में अर्ली ब्लाइट पर ध्यान दें।',farmTips:'किसान सुझाव',tipH:'जल प्रबंधन',tipB:'जलभराव से बचें। भारी बारिश में उचित जल निकासी सुनिश्चित करें।',aTitle:'अलर्ट',a1h:'ब्लास्ट रोग प्रकोप',a1p:'तंजावुर और तिरुवरूर में रिपोर्ट। तुरंत ट्राइसाइक्लाजोल छिड़कें।',a2h:'भारी बारिश चेतावनी',a2p:'IMD 3-4 दिन भारी बारिश का अनुमान।',a3h:'मुफ्त मृदा परीक्षण शिबिर',a3p:'इस शनिवार सरकारी शिबिर, सुबह 9 – दोपहर 2।',a4h:'नई रोग-रोधी किस्म',a4p:'CO-51 धान किस्म सहकारी दुकानों पर उपलब्ध।',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'अलर्ट',navHistory:'इतिहास'}},
+  te:{flag:'🌾',label:'తెలుగు',k:{tagline:'స్మార్ట్ పంట వైద్యుడు',heroSub:'భారతీయ రైతులకు AI పంట వ్యాధి గుర్తింపు. 2G లో పనిచేస్తుంది.',aiPill:'2G సిద్ధం · బహుభాషా AI',chooseLang:'భాష ఎంచుకోండి',whatNext:'మీరు ఏమి చేయాలనుకుంటున్నారు?',diagnoseBtn:'నా పంటను నిర్ధారించండి',diagnoseDesc:'ఫోటో అప్‌లోడ్ లేదా లైవ్ స్కాన్',weatherBtn:'వాతావరణ ప్రమాదాలు',weatherDesc:'సీజన్ హెచ్చరికలు',alertsBtn:'హెచ్చరికలు',alertsDesc:'ప్రకోప హెచ్చరికలు',dTitle:'పంట నిర్ధారణ',selSeason:'సీజన్ ఎంచుకోండి',seasonNote:'మీ సీజన్ ఎంచుకోండి',summer:'☀️ వేసవి',monsoon:'🌧️ వర్షాకాలం',winter:'❄️ శీతాకాలం',rabi:'🌱 రబీ',nextCrop:'తర్వాత: పంట →',cropTitle:'పంట ఎంచుకోండి',pickCrop:'మీ పంట ఎంచుకోండి',nextUpload:'తర్వాత: చిత్రం →',uploadTitle:'చిత్రం అప్‌లోడ్',upTitle:'ఫోటో అప్‌లోడ్ నొక్కండి',upDesc:'JPG లేదా PNG · 5 MB',orSep:'లేదా',camTitle:'కెమెరా తెరవండి',camDesc:'ప్రభావిత ఆకు లేదా కాండంపై చూపించండి',analyzeBtn:'🔬 ఇప్పుడే విశ్లేషించండి',analyzeNote:'2G లో · సుమారు 15 సెకన్లు',s1of4:'దశ 1 / 4',s2of4:'దశ 2 / 4',s3of4:'దశ 3 / 4',procTitle:'మీ పంటను విశ్లేషిస్తున్నాం…',procSub:'AI స్కాన్ చేస్తోంది',resTitle:'ఫలితాలు',aiConf:'AI విశ్వసనీయత',audioLbl:'మీ నిర్ధారణ వినండి',expTitle:'తక్కువ విశ్వాసం — నిపుణుల సమీక్ష',expDesc:'AI విశ్వాసం 60% కంటే తక్కువ.',expBtn:'నిపుణుడిని అభ్యర్థించండి →',orgTab:'🌿 సేంద్రీయ',chemTab:'🧪 రసాయన',goHome:'← హోమ్‌కు',goHome2:'← హోమ్‌కు',wTitle:'వాతావరణ ప్రమాదాలు',wCity:'చెన్నై · తమిళనాడు · వర్షాకాలం',seasRisks:'సీజన్ ప్రమాదాలు',curSeas:'ప్రస్తుత సీజన్: వర్షాకాలం',seasDis:'వరి పొలాల్లో ఆకు మంట, బ్లాస్ట్ వ్యాధి ఎక్కువ ప్రమాదం.',thisMon:'ఈ నెల: మార్చి',monDis:'వరిలో షీత్ రాట్ మరియు టమేటాలో ఎర్లీ బ్లైట్.',farmTips:'రైతు చిట్కాలు',tipH:'నీటి నిర్వహణ',tipB:'నీరు నిల్వ ఉండకుండా చూసుకోండి.',aTitle:'హెచ్చరికలు',a1h:'బ్లాస్ట్ వ్యాధి ప్రకోపం',a1p:'తంజావూరు మరియు తిరువారూర్‌లో నివేదించబడింది.',a2h:'భారీ వర్షం హెచ్చరిక',a2p:'IMD 3-4 రోజులు భారీ వర్షం.',a3h:'ఉచిత మట్టి పరీక్ష',a3p:'ఈ శనివారం ప్రభుత్వ శిబిరం.',a4h:'కొత్త రోగ నిరోధక రకం',a4p:'CO-51 వరి రకం అందుబాటులో.',hTitle:'నిర్ధారణ చరిత్ర',navHome:'హోమ్',navAlerts:'హెచ్చరికలు',navHistory:'చరిత్ర'}},
+  kn:{flag:'🌻',label:'ಕನ್ನಡ',k:{tagline:'ಸ್ಮಾರ್ಟ್ ಬೆಳೆ ವೈದ್ಯ',heroSub:'ಭಾರತೀಯ ರೈತರಿಗಾಗಿ AI ಬೆಳೆ ರೋಗ ಪತ್ತೆ. 2G ಯಲ್ಲಿ ಕಾರ್ಯ.',aiPill:'2G ಸಿದ್ಧ · ಬಹುಭಾಷಾ AI',chooseLang:'ಭಾಷೆ ಆಯ್ಕೆ',whatNext:'ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?',diagnoseBtn:'ನನ್ನ ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',diagnoseDesc:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಅಥವಾ ಲೈವ್ ಸ್ಕ್ಯಾನ್',weatherBtn:'ಹವಾಮಾನ ಅಪಾಯ',weatherDesc:'ಋತು ರೋಗ ಎಚ್ಚರಿಕೆ',alertsBtn:'ಎಚ್ಚರಿಕೆಗಳು',alertsDesc:'ಪ್ರಕೋಪ ಎಚ್ಚರಿಕೆ',dTitle:'ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',selSeason:'ಋತು ಆಯ್ಕೆ',seasonNote:'ನಿಮ್ಮ ಋತು ಆಯ್ಕೆ ಮಾಡಿ',summer:'☀️ ಬೇಸಿಗೆ',monsoon:'🌧️ ಮಳೆಗಾಲ',winter:'❄️ ಚಳಿಗಾಲ',rabi:'🌱 ರಬಿ',nextCrop:'ಮುಂದೆ: ಬೆಳೆ ಆಯ್ಕೆ →',cropTitle:'ಬೆಳೆ ಆಯ್ಕೆ',pickCrop:'ನಿಮ್ಮ ಬೆಳೆ ಆಯ್ಕೆ ಮಾಡಿ',nextUpload:'ಮುಂದೆ: ಚಿತ್ರ ಅಪ್‌ಲೋಡ್ →',uploadTitle:'ಚಿತ್ರ ಅಪ್‌ಲೋಡ್',upTitle:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಟ್ಯಾಪ್',upDesc:'JPG ಅಥವಾ PNG · 5 MB',orSep:'ಅಥವಾ',camTitle:'ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ',camDesc:'ಬಾಧಿತ ಎಲೆ ಅಥವಾ ಕಾಂಡದ ಮೇಲೆ',analyzeBtn:'🔬 ಈಗ ವಿಶ್ಲೇಷಿಸಿ',analyzeNote:'2G ಯಲ್ಲಿ · ~15 ಸೆಕೆಂಡ್',s1of4:'ಹಂತ 1 / 4',s2of4:'ಹಂತ 2 / 4',s3of4:'ಹಂತ 3 / 4',procTitle:'ನಿಮ್ಮ ಬೆಳೆ ವಿಶ್ಲೇಷಣೆ…',procSub:'AI ರೋಗ ಮಾದರಿ ಸ್ಕ್ಯಾನ್',resTitle:'ಫಲಿತಾಂಶ',aiConf:'AI ವಿಶ್ವಾಸಾರ್ಹತೆ',audioLbl:'ನಿಮ್ಮ ರೋಗ ನಿರ್ಣಯ ಕೇಳಿ',expTitle:'ಕಡಿಮೆ ವಿಶ್ವಾಸ — ತಜ್ಞ ಪರಿಶೀಲನೆ',expDesc:'AI ವಿಶ್ವಾಸ 60% ಕ್ಕಿಂತ ಕಡಿಮೆ.',expBtn:'ತಜ್ಞ ಕೋರಿಕೆ →',orgTab:'🌿 ಸಾವಯವ',chemTab:'🧪 ರಾಸಾಯನಿಕ',goHome:'← ಮನೆಗೆ ಮರಳಿ',goHome2:'← ಮನೆಗೆ ಮರಳಿ',wTitle:'ಹವಾಮಾನ ಅಪಾಯ',wCity:'ಚೆನ್ನೈ · ತಮಿಳುನಾಡು · ಮಳೆಗಾಲ',seasRisks:'ಋತು ಅಪಾಯಗಳು',curSeas:'ಪ್ರಸ್ತುತ ಋತು: ಮಳೆಗಾಲ',seasDis:'ಭತ್ತದ ಗದ್ದೆಗಳಲ್ಲಿ ಎಲೆ ಬೆಂಕಿ, ಬ್ಲಾಸ್ಟ್ ರೋಗ ಹೆಚ್ಚಿನ ಅಪಾಯ.',thisMon:'ಈ ತಿಂಗಳು: ಮಾರ್ಚ್',monDis:'ಭತ್ತದಲ್ಲಿ ಶೀತ್ ರಾಟ್ ಮತ್ತು ಟೊಮ್ಯಾಟೊದಲ್ಲಿ ಅರ್ಲಿ ಬ್ಲೈಟ್.',farmTips:'ರೈತ ಸಲಹೆ',tipH:'ನೀರು ನಿರ್ವಹಣೆ',tipB:'ನೀರು ಶೇಖರಣೆ ತಡೆಯಿರಿ.',aTitle:'ಎಚ್ಚರಿಕೆಗಳು',a1h:'ಬ್ಲಾಸ್ಟ್ ರೋಗ ಪ್ರಕೋಪ',a1p:'ತಂಜಾವೂರು ಮತ್ತು ತಿರುವಾರೂರಿನಲ್ಲಿ ವರದಿ.',a2h:'ಭಾರೀ ಮಳೆ ಎಚ್ಚರಿಕೆ',a2p:'IMD 3-4 ದಿನ ಭಾರೀ ಮಳೆ ಮುನ್ಸೂಚನೆ.',a3h:'ಉಚಿತ ಮಣ್ಣು ಪರೀಕ್ಷೆ',a3p:'ಈ ಶನಿವಾರ ಸರ್ಕಾರಿ ಶಿಬಿರ.',a4h:'ಹೊಸ ರೋಗ-ನಿರೋಧಕ ತಳಿ',a4p:'CO-51 ಭತ್ತದ ತಳಿ ಲಭ್ಯ.',hTitle:'ರೋಗ ನಿರ್ಣಯ ಇತಿಹಾಸ',navHome:'ಮನೆ',navAlerts:'ಎಚ್ಚರಿಕೆ',navHistory:'ಇತಿಹಾಸ'}},
+  bn:{flag:'🐯',label:'বাংলা',k:{tagline:'স্মার্ট ফসল চিকিৎসক',heroSub:'ভারতীয় কৃষকদের জন্য AI ফসল রোগ শনাক্তকারী। 2G-তে কাজ করে।',aiPill:'2G প্রস্তুত · বহুভাষিক AI',chooseLang:'ভাষা বেছে নিন',whatNext:'আপনি কী করতে চান?',diagnoseBtn:'আমার ফসল পরীক্ষা করুন',diagnoseDesc:'ছবি আপলোড বা লাইভ স্ক্যান',weatherBtn:'আবহাওয়া ঝুঁকি',weatherDesc:'ঋতু রোগ সতর্কতা',alertsBtn:'সতর্কতা',alertsDesc:'রোগ প্রাদুর্ভাব সতর্কতা',dTitle:'ফসল রোগ নির্ণয়',selSeason:'ঋতু বেছে নিন',seasonNote:'আপনার ঋতু বেছে নিন',summer:'☀️ গ্রীষ্ম',monsoon:'🌧️ বর্ষা',winter:'❄️ শীত',rabi:'🌱 রবি',nextCrop:'পরবর্তী: ফসল →',cropTitle:'ফসল বেছে নিন',pickCrop:'আপনার ফসল বেছে নিন',nextUpload:'পরবর্তী: ছবি →',uploadTitle:'ছবি আপলোড',upTitle:'ছবি আপলোড ট্যাপ',upDesc:'JPG বা PNG · 5 MB',orSep:'অথবা',camTitle:'ক্যামেরা খুলুন',camDesc:'আক্রান্ত পাতায় নির্দেশ করুন',analyzeBtn:'🔬 এখনই বিশ্লেষণ',analyzeNote:'2G-তে · ~15 সেকেন্ড',s1of4:'ধাপ 1 / 4',s2of4:'ধাপ 2 / 4',s3of4:'ধাপ 3 / 4',procTitle:'আপনার ফসল বিশ্লেষণ হচ্ছে…',procSub:'AI রোগের নমুনা স্ক্যান করছে',resTitle:'ফলাফল',aiConf:'AI নির্ভরযোগ্যতা',audioLbl:'আপনার নির্ণয় শুনুন',expTitle:'কম আত্মবিশ্বাস — বিশেষজ্ঞ',expDesc:'AI আত্মবিশ্বাস 60%-এর নিচে।',expBtn:'বিশেষজ্ঞ অনুরোধ →',orgTab:'🌿 জৈব',chemTab:'🧪 রাসায়নিক',goHome:'← হোমে ফিরুন',goHome2:'← হোমে ফিরুন',wTitle:'আবহাওয়া ঝুঁকি',wCity:'চেন্নাই · তামিলনাড়ু · বর্ষা',seasRisks:'মৌসুমী ঝুঁকি',curSeas:'বর্তমান মৌসুম: বর্ষা',seasDis:'ধান ক্ষেতে পাতা ঝলসানো, ব্লাস্ট রোগের ঝুঁকি।',thisMon:'এই মাসে: মার্চ',monDis:'ধানে শীথ রট এবং টমেটোতে আর্লি ব্লাইট।',farmTips:'কৃষক পরামর্শ',tipH:'জল ব্যবস্থাপনা',tipB:'জলাবদ্ধতা এড়িয়ে চলুন।',aTitle:'সতর্কতা',a1h:'ব্লাস্ট রোগ প্রাদুর্ভাব',a1p:'তাঞ্জাভুর ও তিরুভারুরে রিপোর্ট।',a2h:'ভারী বৃষ্টির সতর্কতা',a2p:'IMD 3-4 দিন ভারী বৃষ্টির পূর্বাভাস।',a3h:'বিনামূল্যে মাটি পরীক্ষা',a3p:'এই শনিবার সরকারি শিবির।',a4h:'নতুন রোগ-প্রতিরোধী জাত',a4p:'CO-51 ধান জাত দোকানে পাওয়া যাচ্ছে।',hTitle:'রোগ নির্ণয়ের ইতিহাস',navHome:'হোম',navAlerts:'সতর্কতা',navHistory:'ইতিহাস'}},
+  mr:{flag:'🦚',label:'मराठी',k:{tagline:'स्मार्ट पीक डॉक्टर',heroSub:'भारतीय शेतकऱ्यांसाठी AI पीक रोग शोध. 2G वर चालतो.',aiPill:'2G तयार · बहुभाषिक AI',chooseLang:'भाषा निवडा',whatNext:'तुम्हाला काय करायचे आहे?',diagnoseBtn:'माझ्या पिकाचे निदान करा',diagnoseDesc:'फोटो अपलोड किंवा लाइव्ह स्कॅन',weatherBtn:'हवामान धोके',weatherDesc:'हंगामी रोग इशारे',alertsBtn:'इशारे',alertsDesc:'प्रादुर्भाव चेतावणी',dTitle:'पीक निदान',selSeason:'हंगाम निवडा',seasonNote:'रोग धोका कमी करण्यासाठी हंगाम निवडा',summer:'☀️ उन्हाळा',monsoon:'🌧️ पावसाळा',winter:'❄️ हिवाळा',rabi:'🌱 रब्बी',nextCrop:'पुढे: पीक निवडा →',cropTitle:'पीक निवडा',pickCrop:'तुमचे पीक निवडा',nextUpload:'पुढे: फोटो →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड टॅप करा',upDesc:'JPG किंवा PNG · 5 MB',orSep:'किंवा',camTitle:'कॅमेरा उघडा',camDesc:'बाधित पान किंवा खोडावर दाखवा',analyzeBtn:'🔬 आत्ता विश्लेषण करा',analyzeNote:'2G वर · ~15 सेकंद',s1of4:'टप्पा 1 / 4',s2of4:'टप्पा 2 / 4',s3of4:'टप्पा 3 / 4',procTitle:'तुमच्या पिकाचे विश्लेषण…',procSub:'AI रोग नमुने स्कॅन करत आहे',resTitle:'निकाल',aiConf:'AI विश्वासार्हता',audioLbl:'तुमचे निदान ऐका',expTitle:'कमी विश्वास — तज्ज्ञ',expDesc:'AI विश्वास 60% पेक्षा कमी.',expBtn:'तज्ज्ञ विनंती →',orgTab:'🌿 सेंद्रिय',chemTab:'🧪 रासायनिक',goHome:'← होमवर परत',goHome2:'← होमवर परत',wTitle:'हवामान धोके',wCity:'चेन्नई · तामिळनाडू · पावसाळा',seasRisks:'हंगामी धोके',curSeas:'सध्याचा हंगाम: पावसाळा',seasDis:'भाताच्या शेतात पर्णदाह, जास्त धोका.',thisMon:'या महिन्यात: मार्च',monDis:'भातात शीथ रॉट आणि टोमॅटोत अर्ली ब्लाइट.',farmTips:'शेतकरी टिप्स',tipH:'जलव्यवस्थापन',tipB:'साचलेले पाणी टाळा.',aTitle:'इशारे',a1h:'ब्लास्ट रोग प्रादुर्भाव',a1p:'तंजावर आणि तिरुवरुरमध्ये नोंदवले.',a2h:'जड पाऊस चेतावणी',a2p:'IMD 3-4 दिवस जड पाऊस.',a3h:'मोफत माती परीक्षण',a3p:'या शनिवारी सरकारी शिबिर.',a4h:'नवीन रोगप्रतिकारक वाण',a4p:'CO-51 भाताचे वाण उपलब्ध.',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'इशारे',navHistory:'इतिहास'}},
+  gu:{flag:'🦁',label:'ગુજરાતી',k:{tagline:'સ્માર્ટ પાક ડૉક્ટર',heroSub:'ભારતીય ખેડૂતો માટે AI પાક રોગ શોધ. 2G પર કામ.',aiPill:'2G તૈયાર · બહુભાષી AI',chooseLang:'ભાષા પસંદ કરો',whatNext:'તમે શું કરવા ઈચ્છો?',diagnoseBtn:'મારા પાકનું નિદાન',diagnoseDesc:'ફોટો અપલોડ અથવા લાઇવ સ્કૅન',weatherBtn:'હવામાન જોખમ',weatherDesc:'ઋતુ રોગ ચેતવણી',alertsBtn:'ચેતવણી',alertsDesc:'રોગ ફાટી ચેતવણી',dTitle:'પાક નિદાન',selSeason:'ઋતુ પસંદ',seasonNote:'તમારી ઋતુ પસંદ કરો',summer:'☀️ ઉનાળો',monsoon:'🌧️ ચોમાસું',winter:'❄️ શિયાળો',rabi:'🌱 રવિ',nextCrop:'આગળ: પાક →',cropTitle:'પાક પસંદ',pickCrop:'તમારો પાક પસંદ',nextUpload:'આગળ: ફોટો →',uploadTitle:'ફોટો અપલોડ',upTitle:'ફોટો અપલોડ ટૅપ',upDesc:'JPG અથવા PNG · 5 MB',orSep:'અથવા',camTitle:'કૅમેરા ખોલો',camDesc:'અસરગ્રસ્ત પાન પર નિર્દેશ',analyzeBtn:'🔬 હવે વિશ્લેષણ',analyzeNote:'2G પર · ~15 સેકન્ડ',s1of4:'પગલું 1 / 4',s2of4:'પગલું 2 / 4',s3of4:'પગલું 3 / 4',procTitle:'તમારા પાકનું વિશ્લેષણ…',procSub:'AI રોગ પૅટર્ન સ્કૅન',resTitle:'પરિણામ',aiConf:'AI વિશ્વસનીયતા',audioLbl:'તમારું નિદાન સાંભળો',expTitle:'ઓછો વિશ્વાસ — નિષ્ણાત',expDesc:'AI વિશ્વાસ 60% કરતાં ઓછો.',expBtn:'નિષ્ણાત વિનંતી →',orgTab:'🌿 કાર્બનિક',chemTab:'🧪 રાસાયણિક',goHome:'← હોમ',goHome2:'← હોમ',wTitle:'હવામાન જોખમ',wCity:'ચેન્નઈ · તમિળનાડુ · ચોમાસું',seasRisks:'ઋતુ જોખમ',curSeas:'હાલની ઋતુ: ચોમાસું',seasDis:'ડાંગર ખેતરોમાં પર્ણ ઝળ, બ્લાસ્ટ રોગ ઉચ્ચ જોખમ.',thisMon:'આ મહિને: માર્ચ',monDis:'ડાંગરમાં શીથ રૉટ અને ટામેટાંમાં અર્લી બ્લાઇટ.',farmTips:'ખેડૂત ટિપ્સ',tipH:'જળ વ્યવસ્થાપન',tipB:'પાણી ભરાવ ટાળો.',aTitle:'ચેતવણી',a1h:'બ્લાસ્ટ રોગ ફાટ',a1p:'તાન્જાવૂર અને તિરુવારુરમાં નોંધ.',a2h:'ભારે વરસાદ ચેતવણી',a2p:'IMD 3-4 દિવસ ભારે વરસાદ.',a3h:'મફત જમીન પરીક્ષણ',a3p:'આ શનિવારે સરકારી શિબિર.',a4h:'નવી રોગ-પ્રતિરોધી જાત',a4p:'CO-51 ડાંગર સહકારી દુકાનોમાં.',hTitle:'નિદાન ઇતિહાસ',navHome:'હોમ',navAlerts:'ચેતવણી',navHistory:'ઇતિહાસ'}}
+};
+
+const CROPS={summer:[{e:'🌽',n:'Maize'},{e:'🥜',n:'Groundnut'},{e:'🌶',n:'Chilli'},{e:'🧅',n:'Onion'},{e:'🍅',n:'Tomato'},{e:'🥒',n:'Cucumber'}],monsoon:[{e:'🌾',n:'Paddy'},{e:'🌿',n:'Sugarcane'},{e:'🫘',n:'Soybean'},{e:'🥦',n:'Brinjal'},{e:'🌱',n:'Jute'},{e:'🍃',n:'Ginger'}],winter:[{e:'🌾',n:'Wheat'},{e:'🫛',n:'Peas'},{e:'🥕',n:'Carrot'},{e:'🥬',n:'Mustard'},{e:'🧄',n:'Garlic'},{e:'🌻',n:'Sunflower'}],rabi:[{e:'🌾',n:'Barley'},{e:'🌿',n:'Lentil'},{e:'🫘',n:'Chickpea'},{e:'🥔',n:'Potato'},{e:'🌱',n:'Fenugreek'},{e:'🍵',n:'Coriander'}]};
+
+const DISEASES=[
+  {name:'Leaf Blight',conf:78,sev:'high',spread:'3–5 days',treat:true,organic:['Remove and destroy all visibly infected leaves immediately to slow spread.','Mix 5ml neem oil in 1L water; spray every 3 days on all leaf surfaces.','Apply copper-based Bordeaux mixture (1%) early morning for best absorption.','Reduce crowding by thinning excess tillers to improve air circulation.'],chemical:['Apply Propiconazole 25EC at 1ml per litre of water every 10 days.','Spray Tricyclazole 75WP (0.6g/L) focusing on young emerging leaves.','Follow with Carbendazim 50WP (1g/L) after 7 days if infection persists.','Avoid spraying during rain or wind to ensure effective coverage.']},
+  {name:'Blast Disease',conf:45,sev:'medium',spread:'5–7 days',treat:true,organic:['Burn all infected straw and stubble after harvest to destroy spores.','Apply wood ash around plant base to inhibit spore germination.','Spray Trichoderma viride bio-fungicide (10g/L) as preventive measure.','Remove weeds that may harbor fungal spores around the field.'],chemical:['Spray Isoprothiolane 40EC (1.5ml/L) at panicle initiation stage.','Apply Edifenphos 50EC (1ml/L) in evening for maximum effectiveness.','Repeat spray after 10 days if disease pressure remains high.','Alternate fungicides to prevent resistance development.']},
+  {name:'Brown Spot',conf:91,sev:'low',spread:'7–10 days',treat:true,organic:['Ensure balanced NPK — potassium boosts natural disease resistance.','Apply Pseudomonas fluorescens (10ml/L) as weekly foliar spray.','Use rice hull ash as soil amendment to strengthen leaf cuticle.','Maintain optimal drainage to reduce humidity-driven infection.'],chemical:['Apply Mancozeb 75WP (2g/L) preventively at early morning.','Use Iprodione 50WP (2g/L) when over 20% leaf area shows symptoms.','Spray Chlorothalonil 75WP (2g/L) for broad-spectrum protection.','Stop chemical sprays 14 days before harvest for food safety.']}
+];
+
+const HIST_SEED=[{e:'🌾',crop:'Paddy',disease:'Leaf Blight',sev:'high',date:'Today, 10:32 AM'},{e:'🍅',crop:'Tomato',disease:'Early Blight',sev:'medium',date:'Yesterday, 3:18 PM'},{e:'🌽',crop:'Maize',disease:'Downy Mildew',sev:'low',date:'Mar 18, 9:45 AM'},{e:'🥜',crop:'Groundnut',disease:'Cercospora Leaf Spot',sev:'medium',date:'Mar 15, 2:10 PM'}];
+
+let lang='en',season='summer',crop=null,disease=null,playing=false,hist=[...HIST_SEED];
+
+(function(){
+  const w=document.getElementById('langScroll');
+  w.innerHTML=Object.entries(LANGS).map(([c,d])=>`<button class="lbtn${c==='en'?' sel':''}" onclick="setLang('${c}',this)">${d.flag} ${d.label}</button>`).join('');
+  applyLang();
+})();
+
+function goTo(pg){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById('page-'+pg);
+  if(el){el.classList.add('active');window.scrollTo(0,0)}
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const m={home:'nav-home',alerts:'nav-alerts',history:'nav-history'};
+  const k=Object.keys(m).find(k=>pg.includes(k));
+  if(k)document.getElementById(m[k]).classList.add('active');
+  if(pg==='history')renderHist();
+}
+
+function setLang(code,btn){
+  lang=code;
+  document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');applyLang();
+}
+function applyLang(){
+  const d=LANGS[lang].k;
+  document.querySelectorAll('[data-key]').forEach(el=>{const v=d[el.dataset.key];if(v!==undefined)el.textContent=v});
+}
+
+function setSeason(s,el){season=s;crop=null;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function goToCrop(){goTo('crop');const g=document.getElementById('cropGrid');g.innerHTML=(CROPS[season]||CROPS.summer).map(c=>`<div class="citem" onclick="pickCrop('${c.n}',this)"><span>${c.e}</span><p>${c.n}</p></div>`).join('')}
+function pickCrop(n,el){crop=n;document.querySelectorAll('.citem').forEach(c=>c.classList.remove('sel'));el.classList.add('sel')}
+function goToUpload(){goTo('upload')}
+
+function handleImg(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{const img=document.getElementById('prevImg');img.src=ev.target.result;img.style.display='block';document.querySelector('.iprev .iph').style.display='none'};
+  r.readAsDataURL(f);
+}
+
+function runAnalysis(){
+  goTo('processing');
+  const pf=document.getElementById('pf');
+  pf.style.animation='none';
+  pf.offsetHeight;
+  pf.style.animation='';
+
+  const fileInput = document.getElementById('fi').files[0]
+                 || document.getElementById('ci').files[0];
+
+  const formData = new FormData();
+  formData.append('crop',     (crop || 'rice').toLowerCase());
+  formData.append('season',   season || 'monsoon');
+  formData.append('language', lang   || 'en');
+  if (fileInput) formData.append('image', fileInput);
+
+  fetch('http://localhost:5000/api/diagnose', {
+    method: 'POST',
+    body:   formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (!data.success) throw new Error(data.error);
+    disease = {
+      name:    data.disease,
+      conf:    data.confidence,
+      sev:     data.severity === 'severe'   ? 'high'   :
+               data.severity === 'moderate' ? 'medium' : 'low',
+      spread:  data.time_limit || '5-7 days',
+      treat:   data.treatable,
+      organic: data.organic
+        ? [data.organic,
+           'Remove infected leaves immediately.',
+           'Ensure proper drainage around plants.',
+           'Avoid overhead watering.']
+        : ['No organic treatment available.'],
+      chemical: data.chemical
+        ? [data.chemical,
+           'Apply early morning for best results.',
+           'Repeat every 7 days if symptoms persist.',
+           'Stop spraying 14 days before harvest.']
+        : ['No chemical treatment available.'],
+      expert_review: data.expert_review,
+      history_id:    data.history_id
+    };
+    hist.unshift({
+      e:'🌱', crop: crop||'Unknown',
+      disease: data.disease,
+      sev: disease.sev, date:'Just now'
+    });
+    renderResult(disease);
+    goTo('results');
+  })
+  .catch(err => {
+    alert('Error: ' + err.message +
+          '\n\nMake sure backend is running:\nnode server.js');
+    goTo('upload');
+  });
+}
+
+function renderHist(){
+  const c = document.getElementById('histList');
+  c.innerHTML = '<div class="empty"><span>⏳</span><p>Loading...</p></div>';
+  fetch('http://localhost:5000/api/history')
+  .then(res => res.json())
+  .then(data => {
+    if (!data.data || data.data.length === 0) {
+      c.innerHTML = `<div class="empty">
+        <span>📋</span>
+        <p>No diagnoses yet.<br>Start by scanning your crop!</p>
+      </div>`;
+      return;
+    }
+    c.innerHTML = data.data.map(h => `
+      <div class="hcard">
+        <div class="hico">🌱</div>
+        <div class="hbody">
+          <h4>${h.crop_name}</h4>
+          <p>${h.disease_name}</p>
+          <small>${new Date(h.created_at).toLocaleString()}</small>
+        </div>
+        <div class="hbadge ${
+          h.severity==='severe' ? 'high' :
+          h.severity==='moderate' ? 'medium' : 'low'
+        }">${h.confidence}%</div>
+      </div>
+    `).join('');
+  })
+  .catch(() => {
+    c.innerHTML = hist.map(h=>`
+      <div class="hcard">
+        <div class="hico">${h.e}</div>
+        <div class="hbody">
+          <h4>${h.crop}</h4>
+          <p>${h.disease}</p>
+          <small>${h.date}</small>
+        </div>
+        <div class="hbadge ${h.sev}">${cap(h.sev)}</div>
+      </div>
+    `).join('');
+  });
+}
+function renderResult(d){
+  document.getElementById('confVal').textContent=d.conf+'%';
+  const arc=document.getElementById('confArc'),total=2*Math.PI*31,filled=(d.conf/100)*total;
+  arc.setAttribute('stroke-dasharray',`${filled.toFixed(1)} ${(total-filled).toFixed(1)}`);
+  document.getElementById('rDis').textContent=d.name;
+  document.getElementById('rCrop').textContent=(crop||'Unknown')+' · '+cap(season)+' Season';
+  const sl=d.sev==='high'?'🔴 High Severity':d.sev==='medium'?'🟡 Medium Severity':'🟢 Low Severity';
+  document.getElementById('rBadges').innerHTML=
+    `<div class="rbadge ${d.sev}">${sl}</div>`+
+    `<div class="rbadge">⏱ Spreads in ${d.spread}</div>`+
+    `<div class="rbadge">${d.treat?'✅ Treatable':'❌ Not Treatable'}</div>`;
+  document.getElementById('expertBox').style.display=d.conf<60?'block':'none';
+  renderTreat('organic',d);
+}
+function switchTreat(type,btn){
+  document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
+  if(disease)renderTreat(type,disease);
+}
+function renderTreat(type,d){
+  const steps=type==='organic'?d.organic:d.chemical;
+  const isOrg=type==='organic';
+  document.getElementById('tContent').innerHTML=steps.map((s,i)=>`<div class="tstep"><div class="tnum" style="${!isOrg?'background:linear-gradient(135deg,var(--teal3),var(--tealdk));box-shadow:0 2px 10px rgba(78,201,196,.3)':''}">${i+1}</div><div class="ttxt">${s}</div></div>`).join('');
+}
+
+function toggleTTS(btn){
+  const w=document.getElementById('waveB');
+  if(playing){window.speechSynthesis?.cancel();playing=false;btn.textContent='▶';w.classList.add('pause');return}
+  if(!disease)return;
+  const txt=`Diagnosis complete. Disease: ${disease.name}. Confidence: ${disease.conf}%. Severity: ${disease.sev}. Spreads in ${disease.spread}. ${disease.treat?'Treatable.':'Not treatable.'} Organic treatment: ${disease.organic[0]}`;
+  if('speechSynthesis'in window){
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang=lang==='ta'?'ta-IN':lang==='hi'||lang==='mr'?'hi-IN':'en-IN';u.rate=0.88;
+    u.onend=()=>{playing=false;btn.textContent='▶';w.classList.add('pause')};
+    window.speechSynthesis.speak(u);playing=true;btn.textContent='⏸';w.classList.remove('pause');
+  }
+}
+
+
+function requestExpert(){
+  if (!disease || !disease.history_id) {
+    alert('No diagnosis to review.');
+    return;
+  }
+  fetch('http://localhost:5000/api/expert-review', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ history_id: disease.history_id })
+  })
+  .then(res => res.json())
+  .then(() => {
+    alert('✅ Expert review requested!\nAn agronomist will SMS you within 24 hours.');
+  })
+  .catch(err => alert('Error: ' + err.message));
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+</script>
+</body>
+</html>
