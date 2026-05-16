@@ -3,7 +3,6 @@ require('dotenv').config();
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// ── Treatment database ─────────────────────────────────
 const TREATMENT_DB = {
   'Early Blight': {
     organic:    'Spray neem oil 5ml/litre every 7 days',
@@ -55,6 +54,81 @@ const TREATMENT_DB = {
     chemical:   'Spray Imidacloprid 0.5ml/litre',
     time_limit: '72 hours', severity: 'mild', treatable: true
   },
+  'Cercospora Leaf Spot': {
+    organic:    'Spray neem oil 5ml/litre every 7 days',
+    chemical:   'Spray Carbendazim 1g/litre every 10 days',
+    time_limit: '72 hours', severity: 'moderate', treatable: true
+  },
+  'Anthracnose': {
+    organic:    'Remove infected fruits, spray copper fungicide',
+    chemical:   'Spray Mancozeb 2g/litre every 7 days',
+    time_limit: '48 hours', severity: 'severe', treatable: true
+  },
+  'Fusarium Wilt': {
+    organic:    'Remove infected plants, apply Trichoderma viride',
+    chemical:   'Drench soil with Carbendazim 1g/litre',
+    time_limit: '24 hours', severity: 'severe', treatable: false
+  },
+  'Damping Off': {
+    organic:    'Improve drainage, apply wood ash around base',
+    chemical:   'Drench with Copper oxychloride 3g/litre',
+    time_limit: '24 hours', severity: 'severe', treatable: true
+  },
+  'Root Rot': {
+    organic:    'Improve drainage, reduce watering frequency',
+    chemical:   'Apply Metalaxyl 2g/litre soil drench',
+    time_limit: '48 hours', severity: 'severe', treatable: true
+  },
+  'Sheath Rot': {
+    organic:    'Remove infected sheaths, improve air circulation',
+    chemical:   'Spray Propiconazole 1ml/litre at booting stage',
+    time_limit: '48 hours', severity: 'moderate', treatable: true
+  },
+  'Smut': {
+    organic:    'Remove infected plants immediately, burn them',
+    chemical:   'Treat seeds with Carboxin 2g/kg before sowing',
+    time_limit: '24 hours', severity: 'severe', treatable: false
+  },
+  'Mosaic Virus': {
+    organic:    'Remove infected plants, control aphid vectors',
+    chemical:   'Spray Imidacloprid 0.5ml/litre to control vectors',
+    time_limit: '24 hours', severity: 'severe', treatable: false
+  },
+  'Leaf Scorch': {
+    organic:    'Improve irrigation, apply potassium fertiliser',
+    chemical:   'Spray Potassium nitrate 10g/litre foliar spray',
+    time_limit: '72 hours', severity: 'mild', treatable: true
+  },
+  'Gray Leaf Spot': {
+    organic:    'Crop rotation, remove infected debris',
+    chemical:   'Spray Azoxystrobin 1ml/litre every 14 days',
+    time_limit: '72 hours', severity: 'moderate', treatable: true
+  },
+  'Crown Rot': {
+    organic:    'Remove infected plants, avoid waterlogging',
+    chemical:   'Apply Tebuconazole 1ml/litre soil drench',
+    time_limit: '24 hours', severity: 'severe', treatable: true
+  },
+  'Alternaria Blight': {
+    organic:    'Spray neem oil 5ml/litre every 5 days',
+    chemical:   'Spray Iprodione 2g/litre every 10 days',
+    time_limit: '48 hours', severity: 'moderate', treatable: true
+  },
+  'Black Rot': {
+    organic:    'Remove infected leaves, avoid overhead irrigation',
+    chemical:   'Spray Copper hydroxide 3g/litre every 7 days',
+    time_limit: '48 hours', severity: 'severe', treatable: true
+  },
+  'Stem Rot': {
+    organic:    'Remove infected stems, apply Trichoderma viride',
+    chemical:   'Drench with Carbendazim 1g/litre',
+    time_limit: '24 hours', severity: 'severe', treatable: true
+  },
+  'Septoria Leaf Spot': {
+    organic:    'Remove infected leaves, improve air circulation',
+    chemical:   'Spray Chlorothalonil 2g/litre every 7 days',
+    time_limit: '72 hours', severity: 'moderate', treatable: true
+  },
   'Healthy': {
     organic:    'No treatment needed — crop is healthy',
     chemical:   'No treatment needed',
@@ -70,7 +144,6 @@ function getDefaultTreatment() {
   };
 }
 
-// ── Call Gemini Vision API ─────────────────────────────
 async function callGemini(imageBuffer, imageType, cropName) {
   const base64Image = imageBuffer.toString('base64');
 
@@ -86,7 +159,7 @@ Check for:
 - Wilting or curling
 - Any discolouration
 
-IMPORTANT: If you see ANY brown patches, dark spots, lesions, or discolouration — it is NOT healthy. Be strict.
+IMPORTANT: If you see ANY brown patches, dark spots, lesions, or discolouration it is NOT healthy. Be strict.
 
 Respond in EXACTLY this format, nothing else:
 DISEASE: [disease name]
@@ -94,12 +167,16 @@ CONFIDENCE: [number 50 to 97]
 REASON: [one sentence]
 
 Disease options ONLY:
-Early Blight, Late Blight, Leaf Blight, Rice Blast, Brown Spot, Yellow Rust, Bacterial Blight, Powdery Mildew, Downy Mildew, Leaf Curl, Healthy
+Early Blight, Late Blight, Leaf Blight, Rice Blast, Brown Spot, Yellow Rust,
+Bacterial Blight, Powdery Mildew, Downy Mildew, Leaf Curl, Cercospora Leaf Spot,
+Anthracnose, Fusarium Wilt, Damping Off, Root Rot, Sheath Rot, Smut,
+Mosaic Virus, Leaf Scorch, Gray Leaf Spot, Crown Rot, Alternaria Blight,
+Black Rot, Stem Rot, Septoria Leaf Spot, Healthy
 
-CONFIDENCE number only — no percent sign.`;
+CONFIDENCE number only no percent sign.`;
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${GEMINI_API_KEY}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -130,7 +207,6 @@ CONFIDENCE number only — no percent sign.`;
 
   const data = await response.json();
   const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
   console.log('Gemini raw response:', text);
 
   const diseaseMatch    = text.match(/DISEASE:\s*(.+)/i);
@@ -146,17 +222,20 @@ CONFIDENCE number only — no percent sign.`;
   return { disease, confidence };
 }
 
-// ── Mock AI fallback ───────────────────────────────────
 function mockAI(cropName) {
   const DISEASE_MAP = {
     tomato:    ['Early Blight', 'Late Blight', 'Leaf Curl', 'Healthy'],
     rice:      ['Rice Blast', 'Brown Spot', 'Bacterial Blight', 'Healthy'],
-    paddy:     ['Rice Blast', 'Brown Spot', 'Bacterial Blight', 'Healthy'],
+    paddy:     ['Rice Blast', 'Sheath Rot', 'Brown Spot', 'Healthy'],
     wheat:     ['Yellow Rust', 'Brown Spot', 'Powdery Mildew', 'Healthy'],
-    maize:     ['Leaf Blight', 'Downy Mildew', 'Healthy'],
-    groundnut: ['Early Blight', 'Late Blight', 'Healthy'],
-    chilli:    ['Leaf Curl', 'Powdery Mildew', 'Healthy'],
+    maize:     ['Leaf Blight', 'Gray Leaf Spot', 'Healthy'],
+    groundnut: ['Cercospora Leaf Spot', 'Early Blight', 'Healthy'],
+    chilli:    ['Leaf Curl', 'Anthracnose', 'Healthy'],
     onion:     ['Downy Mildew', 'Bacterial Blight', 'Healthy'],
+    sugarcane: ['Smut', 'Yellow Rust', 'Healthy'],
+    soybean:   ['Alternaria Blight', 'Mosaic Virus', 'Healthy'],
+    potato:    ['Late Blight', 'Early Blight', 'Black Rot', 'Healthy'],
+    brinjal:   ['Damping Off', 'Cercospora Leaf Spot', 'Healthy'],
   };
   const diseases   = DISEASE_MAP[cropName.toLowerCase()] || ['Early Blight', 'Healthy'];
   const disease    = diseases[Math.floor(Math.random() * diseases.length)];
@@ -164,13 +243,11 @@ function mockAI(cropName) {
   return { disease, confidence };
 }
 
-// ── Upload image only ──────────────────────────────────
 exports.uploadImage = (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No image uploaded' });
   res.json({ success: true, image_path: req.file.path });
 };
 
-// ── Main diagnose ──────────────────────────────────────
 exports.diagnose = async (req, res) => {
   try {
     const { crop, season, language = 'en' } = req.body;

@@ -829,224 +829,278 @@ body{
 
 <script>
 const LANGS={
-  en:{flag:'🇬🇧',label:'English',k:{tagline:'Smart Crop Doctor',heroSub:'AI-powered crop disease detection built for every Indian farmer. Works on 2G.',aiPill:'2G Ready · Multilingual AI',chooseLang:'Choose Language',whatNext:'What would you like to do?',diagnoseBtn:'Diagnose My Crop',diagnoseDesc:'Upload a photo or scan live — instant AI results',weatherBtn:'Weather Risks',weatherDesc:'Season disease alerts',alertsBtn:'Alerts',alertsDesc:'Outbreak warnings',dTitle:'Diagnose Crop',selSeason:'Select Season',seasonNote:'Choose your current growing season',summer:'☀️ Summer',monsoon:'🌧️ Monsoon',winter:'❄️ Winter',rabi:'🌱 Rabi',nextCrop:'Next: Pick Crop →',cropTitle:'Select Crop',pickCrop:'Pick your crop',nextUpload:'Next: Upload Image →',uploadTitle:'Upload Image',upTitle:'Tap to upload photo',upDesc:'JPG or PNG · up to 5 MB',orSep:'or',camTitle:'Open Camera',camDesc:'Point at the affected leaf or stem',analyzeBtn:'🔬 Analyze Now',analyzeNote:'Works on 2G · avg. ~15 seconds',s1of4:'Step 1 of 4',s2of4:'Step 2 of 4',s3of4:'Step 3 of 4',procTitle:'Analyzing your crop…',procSub:'AI is scanning for disease patterns',resTitle:'Results',aiConf:'AI Confidence',audioLbl:'Listen to your diagnosis',expTitle:'Low Confidence — Expert Review',expDesc:'AI confidence below 60%. An agronomist will review & SMS you within 24 hrs.',expBtn:'Request Expert →',orgTab:'🌿 Organic',chemTab:'🧪 Chemical',goHome:'← Back to Home',goHome2:'← Back to Home',wTitle:'Weather Risks',wCity:'Chennai · Tamil Nadu · Monsoon',seasRisks:'Seasonal Risks',curSeas:'Current Season: Monsoon',seasDis:'High risk of Leaf Blight, Blast Disease, and Brown Spot in paddy. Humidity above 80% accelerates fungal spread.',thisMon:'This Month: March',monDis:'Watch for Sheath Rot in rice and Early Blight in tomato. Apply preventive fungicide before flowering.',farmTips:'Farmer Tips',tipH:'Water Management',tipB:'Avoid waterlogging. Ensure drainage during heavy rain to prevent root diseases.',aTitle:'Alerts',a1h:'Blast Disease Outbreak',a1p:'Reported in Thanjavur & Tiruvarur. Rice farmers: spray tricyclazole immediately.',a2h:'Heavy Rain Warning',a2p:'IMD predicts 3–4 days of heavy rainfall. Delay pesticide sprays.',a3h:'Free Soil Test Camp',a3p:'Government camp at your nearest KVK this Saturday, 9 AM – 2 PM.',a4h:'New Blight-Resistant Variety',a4p:'CO-51 paddy variety now at cooperative stores.',hTitle:'History',navHome:'Home',navAlerts:'Alerts',navHistory:'History'}},
-  ta:{flag:'🌿',label:'தமிழ்',k:{tagline:'திறமையான பயிர் மருத்துவர்',heroSub:'இந்திய விவசாயிகளுக்கான AI நோய் கண்டறிவி. 2G இல் வேலை செய்கிறது.',aiPill:'2G தயார் · பல மொழி AI',chooseLang:'மொழி தேர்வு',whatNext:'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',diagnoseBtn:'என் பயிரை கண்டறி',diagnoseDesc:'படம் ஏற்று அல்லது நேரடி ஸ்கேன்',weatherBtn:'வானிலை அபாயங்கள்',weatherDesc:'பருவ நோய் எச்சரிக்கை',alertsBtn:'எச்சரிக்கைகள்',alertsDesc:'நோய் தொற்று எச்சரிக்கை',dTitle:'பயிர் கண்டறிவு',selSeason:'பருவம் தேர்வு',seasonNote:'உங்கள் பருவத்தை தேர்ந்தெடுக்கவும்',summer:'☀️ கோடை',monsoon:'🌧️ மழைக்காலம்',winter:'❄️ குளிர்காலம்',rabi:'🌱 ரபி',nextCrop:'அடுத்து: பயிர் தேர்வு →',cropTitle:'பயிர் தேர்வு',pickCrop:'உங்கள் பயிரை தேர்ந்தெடுக்கவும்',nextUpload:'அடுத்து: படம் ஏற்று →',uploadTitle:'படம் ஏற்று',upTitle:'படத்தை ஏற்ற தொடவும்',upDesc:'JPG அல்லது PNG · 5 MB வரை',orSep:'அல்லது',camTitle:'கேமரா திற',camDesc:'பாதிக்கப்பட்ட இலை அல்லது தண்டை நோக்கவும்',analyzeBtn:'🔬 இப்போது பகுப்பாய்வு',analyzeNote:'2G இல் வேலை · சராசரி ~15 வினாடி',s1of4:'படி 1 / 4',s2of4:'படி 2 / 4',s3of4:'படி 3 / 4',procTitle:'உங்கள் பயிரை பகுப்பாய்வு செய்கிறோம்…',procSub:'AI நோய் முறைகளை கண்டறிகிறது',resTitle:'முடிவுகள்',aiConf:'AI நம்பகத்தன்மை',audioLbl:'உங்கள் கண்டறிவை கேளுங்கள்',expTitle:'குறைந்த நம்பகத்தன்மை — நிபுணர் மதிப்பாய்வு',expDesc:'AI நம்பகத்தன்மை 60% க்கும் குறைவு.',expBtn:'நிபுணர் கோருக →',orgTab:'🌿 இயற்கை',chemTab:'🧪 வேதியியல்',goHome:'← முகப்புக்கு திரும்பு',goHome2:'← முகப்புக்கு திரும்பு',wTitle:'வானிலை அபாயங்கள்',wCity:'சென்னை · தமிழ்நாடு · மழைக்காலம்',seasRisks:'பருவ நோய் அபாயங்கள்',curSeas:'தற்போதைய பருவம்: மழைக்காலம்',seasDis:'நெல் வயல்களில் இலை தீ, வெடிப்பு நோய் அதிக ஆபத்து.',thisMon:'இந்த மாதம்: மார்ச்',monDis:'நெல்லில் ஷீத் ராட் மற்றும் தக்காளியில் ஆர்லி ப்ளைட் கவனியுங்கள்.',farmTips:'விவசாயி குறிப்புகள்',tipH:'நீர் மேலாண்மை',tipB:'நீர்தேக்கத்தை தவிர்க்கவும்.',aTitle:'எச்சரிக்கைகள்',a1h:'வெடிப்பு நோய் தொற்று',a1p:'தஞ்சாவூர் & திருவாரூரில் தெரிவிக்கப்பட்டது.',a2h:'கனமழை எச்சரிக்கை',a2p:'IMD 3-4 நாட்கள் கனமழை கணிக்கிறது.',a3h:'இலவச மண் சோதனை முகாம்',a3p:'இந்த சனிக்கிழமை அரசு மண் சோதனை முகாம்.',a4h:'புதிய பயிர் வகை',a4p:'CO-51 நெல் வகை கூட்டுறவு கடைகளில் கிடைக்கிறது.',hTitle:'கண்டறிவு வரலாறு',navHome:'முகப்பு',navAlerts:'எச்சரிக்கை',navHistory:'வரலாறு'}},
-  hi:{flag:'🇮🇳',label:'हिंदी',k:{tagline:'स्मार्ट फसल डॉक्टर',heroSub:'भारतीय किसानों के लिए AI फसल रोग पहचान। 2G पर काम करता है।',aiPill:'2G तैयार · बहुभाषी AI',chooseLang:'भाषा चुनें',whatNext:'आप क्या करना चाहते हैं?',diagnoseBtn:'फसल का निदान करें',diagnoseDesc:'फोटो अपलोड करें या लाइव स्कैन',weatherBtn:'मौसम जोखिम',weatherDesc:'मौसमी रोग अलर्ट',alertsBtn:'अलर्ट',alertsDesc:'प्रकोप चेतावनी',dTitle:'फसल निदान',selSeason:'मौसम चुनें',seasonNote:'रोग जोखिम कम करने के लिए मौसम चुनें',summer:'☀️ गर्मी',monsoon:'🌧️ मानसून',winter:'❄️ सर्दी',rabi:'🌱 रबी',nextCrop:'अगला: फसल चुनें →',cropTitle:'फसल चुनें',pickCrop:'अपनी फसल चुनें',nextUpload:'अगला: फोटो अपलोड →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड करने के लिए टैप करें',upDesc:'JPG या PNG · 5 MB तक',orSep:'या',camTitle:'कैमरा खोलें',camDesc:'प्रभावित पत्ती या तने पर इशारा करें',analyzeBtn:'🔬 अभी विश्लेषण करें',analyzeNote:'2G पर काम करता है · ~15 सेकंड औसत',s1of4:'चरण 1 / 4',s2of4:'चरण 2 / 4',s3of4:'चरण 3 / 4',procTitle:'आपकी फसल का विश्लेषण हो रहा है…',procSub:'AI रोग पैटर्न खोज रहा है',resTitle:'परिणाम',aiConf:'AI विश्वसनीयता',audioLbl:'अपना निदान सुनें',expTitle:'कम विश्वास — विशेषज्ञ समीक्षा',expDesc:'AI विश्वास 60% से कम। विशेषज्ञ 24 घंटे में SMS करेगा।',expBtn:'विशेषज्ञ समीक्षा →',orgTab:'🌿 जैविक',chemTab:'🧪 रासायनिक',goHome:'← होम पर वापस',goHome2:'← होम पर वापस',wTitle:'मौसम जोखिम',wCity:'चेन्नई · तमिलनाडु · मानसून',seasRisks:'मौसमी जोखिम',curSeas:'वर्तमान मौसम: मानसून',seasDis:'धान में पर्ण झुलसा, ब्लास्ट रोग का अधिक खतरा।',thisMon:'इस महीने: मार्च',monDis:'धान में शीथ रॉट और टमाटर में अर्ली ब्लाइट पर ध्यान दें।',farmTips:'किसान सुझाव',tipH:'जल प्रबंधन',tipB:'जलभराव से बचें। भारी बारिश में उचित जल निकासी सुनिश्चित करें।',aTitle:'अलर्ट',a1h:'ब्लास्ट रोग प्रकोप',a1p:'तंजावुर और तिरुवरूर में रिपोर्ट। तुरंत ट्राइसाइक्लाजोल छिड़कें।',a2h:'भारी बारिश चेतावनी',a2p:'IMD 3-4 दिन भारी बारिश का अनुमान।',a3h:'मुफ्त मृदा परीक्षण शिबिर',a3p:'इस शनिवार सरकारी शिबिर, सुबह 9 – दोपहर 2।',a4h:'नई रोग-रोधी किस्म',a4p:'CO-51 धान किस्म सहकारी दुकानों पर उपलब्ध।',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'अलर्ट',navHistory:'इतिहास'}},
-  te:{flag:'🌾',label:'తెలుగు',k:{tagline:'స్మార్ట్ పంట వైద్యుడు',heroSub:'భారతీయ రైతులకు AI పంట వ్యాధి గుర్తింపు. 2G లో పనిచేస్తుంది.',aiPill:'2G సిద్ధం · బహుభాషా AI',chooseLang:'భాష ఎంచుకోండి',whatNext:'మీరు ఏమి చేయాలనుకుంటున్నారు?',diagnoseBtn:'నా పంటను నిర్ధారించండి',diagnoseDesc:'ఫోటో అప్‌లోడ్ లేదా లైవ్ స్కాన్',weatherBtn:'వాతావరణ ప్రమాదాలు',weatherDesc:'సీజన్ హెచ్చరికలు',alertsBtn:'హెచ్చరికలు',alertsDesc:'ప్రకోప హెచ్చరికలు',dTitle:'పంట నిర్ధారణ',selSeason:'సీజన్ ఎంచుకోండి',seasonNote:'మీ సీజన్ ఎంచుకోండి',summer:'☀️ వేసవి',monsoon:'🌧️ వర్షాకాలం',winter:'❄️ శీతాకాలం',rabi:'🌱 రబీ',nextCrop:'తర్వాత: పంట →',cropTitle:'పంట ఎంచుకోండి',pickCrop:'మీ పంట ఎంచుకోండి',nextUpload:'తర్వాత: చిత్రం →',uploadTitle:'చిత్రం అప్‌లోడ్',upTitle:'ఫోటో అప్‌లోడ్ నొక్కండి',upDesc:'JPG లేదా PNG · 5 MB',orSep:'లేదా',camTitle:'కెమెరా తెరవండి',camDesc:'ప్రభావిత ఆకు లేదా కాండంపై చూపించండి',analyzeBtn:'🔬 ఇప్పుడే విశ్లేషించండి',analyzeNote:'2G లో · సుమారు 15 సెకన్లు',s1of4:'దశ 1 / 4',s2of4:'దశ 2 / 4',s3of4:'దశ 3 / 4',procTitle:'మీ పంటను విశ్లేషిస్తున్నాం…',procSub:'AI స్కాన్ చేస్తోంది',resTitle:'ఫలితాలు',aiConf:'AI విశ్వసనీయత',audioLbl:'మీ నిర్ధారణ వినండి',expTitle:'తక్కువ విశ్వాసం — నిపుణుల సమీక్ష',expDesc:'AI విశ్వాసం 60% కంటే తక్కువ.',expBtn:'నిపుణుడిని అభ్యర్థించండి →',orgTab:'🌿 సేంద్రీయ',chemTab:'🧪 రసాయన',goHome:'← హోమ్‌కు',goHome2:'← హోమ్‌కు',wTitle:'వాతావరణ ప్రమాదాలు',wCity:'చెన్నై · తమిళనాడు · వర్షాకాలం',seasRisks:'సీజన్ ప్రమాదాలు',curSeas:'ప్రస్తుత సీజన్: వర్షాకాలం',seasDis:'వరి పొలాల్లో ఆకు మంట, బ్లాస్ట్ వ్యాధి ఎక్కువ ప్రమాదం.',thisMon:'ఈ నెల: మార్చి',monDis:'వరిలో షీత్ రాట్ మరియు టమేటాలో ఎర్లీ బ్లైట్.',farmTips:'రైతు చిట్కాలు',tipH:'నీటి నిర్వహణ',tipB:'నీరు నిల్వ ఉండకుండా చూసుకోండి.',aTitle:'హెచ్చరికలు',a1h:'బ్లాస్ట్ వ్యాధి ప్రకోపం',a1p:'తంజావూరు మరియు తిరువారూర్‌లో నివేదించబడింది.',a2h:'భారీ వర్షం హెచ్చరిక',a2p:'IMD 3-4 రోజులు భారీ వర్షం.',a3h:'ఉచిత మట్టి పరీక్ష',a3p:'ఈ శనివారం ప్రభుత్వ శిబిరం.',a4h:'కొత్త రోగ నిరోధక రకం',a4p:'CO-51 వరి రకం అందుబాటులో.',hTitle:'నిర్ధారణ చరిత్ర',navHome:'హోమ్',navAlerts:'హెచ్చరికలు',navHistory:'చరిత్ర'}},
-  kn:{flag:'🌻',label:'ಕನ್ನಡ',k:{tagline:'ಸ್ಮಾರ್ಟ್ ಬೆಳೆ ವೈದ್ಯ',heroSub:'ಭಾರತೀಯ ರೈತರಿಗಾಗಿ AI ಬೆಳೆ ರೋಗ ಪತ್ತೆ. 2G ಯಲ್ಲಿ ಕಾರ್ಯ.',aiPill:'2G ಸಿದ್ಧ · ಬಹುಭಾಷಾ AI',chooseLang:'ಭಾಷೆ ಆಯ್ಕೆ',whatNext:'ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?',diagnoseBtn:'ನನ್ನ ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',diagnoseDesc:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಅಥವಾ ಲೈವ್ ಸ್ಕ್ಯಾನ್',weatherBtn:'ಹವಾಮಾನ ಅಪಾಯ',weatherDesc:'ಋತು ರೋಗ ಎಚ್ಚರಿಕೆ',alertsBtn:'ಎಚ್ಚರಿಕೆಗಳು',alertsDesc:'ಪ್ರಕೋಪ ಎಚ್ಚರಿಕೆ',dTitle:'ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',selSeason:'ಋತು ಆಯ್ಕೆ',seasonNote:'ನಿಮ್ಮ ಋತು ಆಯ್ಕೆ ಮಾಡಿ',summer:'☀️ ಬೇಸಿಗೆ',monsoon:'🌧️ ಮಳೆಗಾಲ',winter:'❄️ ಚಳಿಗಾಲ',rabi:'🌱 ರಬಿ',nextCrop:'ಮುಂದೆ: ಬೆಳೆ ಆಯ್ಕೆ →',cropTitle:'ಬೆಳೆ ಆಯ್ಕೆ',pickCrop:'ನಿಮ್ಮ ಬೆಳೆ ಆಯ್ಕೆ ಮಾಡಿ',nextUpload:'ಮುಂದೆ: ಚಿತ್ರ ಅಪ್‌ಲೋಡ್ →',uploadTitle:'ಚಿತ್ರ ಅಪ್‌ಲೋಡ್',upTitle:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಟ್ಯಾಪ್',upDesc:'JPG ಅಥವಾ PNG · 5 MB',orSep:'ಅಥವಾ',camTitle:'ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ',camDesc:'ಬಾಧಿತ ಎಲೆ ಅಥವಾ ಕಾಂಡದ ಮೇಲೆ',analyzeBtn:'🔬 ಈಗ ವಿಶ್ಲೇಷಿಸಿ',analyzeNote:'2G ಯಲ್ಲಿ · ~15 ಸೆಕೆಂಡ್',s1of4:'ಹಂತ 1 / 4',s2of4:'ಹಂತ 2 / 4',s3of4:'ಹಂತ 3 / 4',procTitle:'ನಿಮ್ಮ ಬೆಳೆ ವಿಶ್ಲೇಷಣೆ…',procSub:'AI ರೋಗ ಮಾದರಿ ಸ್ಕ್ಯಾನ್',resTitle:'ಫಲಿತಾಂಶ',aiConf:'AI ವಿಶ್ವಾಸಾರ್ಹತೆ',audioLbl:'ನಿಮ್ಮ ರೋಗ ನಿರ್ಣಯ ಕೇಳಿ',expTitle:'ಕಡಿಮೆ ವಿಶ್ವಾಸ — ತಜ್ಞ ಪರಿಶೀಲನೆ',expDesc:'AI ವಿಶ್ವಾಸ 60% ಕ್ಕಿಂತ ಕಡಿಮೆ.',expBtn:'ತಜ್ಞ ಕೋರಿಕೆ →',orgTab:'🌿 ಸಾವಯವ',chemTab:'🧪 ರಾಸಾಯನಿಕ',goHome:'← ಮನೆಗೆ ಮರಳಿ',goHome2:'← ಮನೆಗೆ ಮರಳಿ',wTitle:'ಹವಾಮಾನ ಅಪಾಯ',wCity:'ಚೆನ್ನೈ · ತಮಿಳುನಾಡು · ಮಳೆಗಾಲ',seasRisks:'ಋತು ಅಪಾಯಗಳು',curSeas:'ಪ್ರಸ್ತುತ ಋತು: ಮಳೆಗಾಲ',seasDis:'ಭತ್ತದ ಗದ್ದೆಗಳಲ್ಲಿ ಎಲೆ ಬೆಂಕಿ, ಬ್ಲಾಸ್ಟ್ ರೋಗ ಹೆಚ್ಚಿನ ಅಪಾಯ.',thisMon:'ಈ ತಿಂಗಳು: ಮಾರ್ಚ್',monDis:'ಭತ್ತದಲ್ಲಿ ಶೀತ್ ರಾಟ್ ಮತ್ತು ಟೊಮ್ಯಾಟೊದಲ್ಲಿ ಅರ್ಲಿ ಬ್ಲೈಟ್.',farmTips:'ರೈತ ಸಲಹೆ',tipH:'ನೀರು ನಿರ್ವಹಣೆ',tipB:'ನೀರು ಶೇಖರಣೆ ತಡೆಯಿರಿ.',aTitle:'ಎಚ್ಚರಿಕೆಗಳು',a1h:'ಬ್ಲಾಸ್ಟ್ ರೋಗ ಪ್ರಕೋಪ',a1p:'ತಂಜಾವೂರು ಮತ್ತು ತಿರುವಾರೂರಿನಲ್ಲಿ ವರದಿ.',a2h:'ಭಾರೀ ಮಳೆ ಎಚ್ಚರಿಕೆ',a2p:'IMD 3-4 ದಿನ ಭಾರೀ ಮಳೆ ಮುನ್ಸೂಚನೆ.',a3h:'ಉಚಿತ ಮಣ್ಣು ಪರೀಕ್ಷೆ',a3p:'ಈ ಶನಿವಾರ ಸರ್ಕಾರಿ ಶಿಬಿರ.',a4h:'ಹೊಸ ರೋಗ-ನಿರೋಧಕ ತಳಿ',a4p:'CO-51 ಭತ್ತದ ತಳಿ ಲಭ್ಯ.',hTitle:'ರೋಗ ನಿರ್ಣಯ ಇತಿಹಾಸ',navHome:'ಮನೆ',navAlerts:'ಎಚ್ಚರಿಕೆ',navHistory:'ಇತಿಹಾಸ'}},
-  bn:{flag:'🐯',label:'বাংলা',k:{tagline:'স্মার্ট ফসল চিকিৎসক',heroSub:'ভারতীয় কৃষকদের জন্য AI ফসল রোগ শনাক্তকারী। 2G-তে কাজ করে।',aiPill:'2G প্রস্তুত · বহুভাষিক AI',chooseLang:'ভাষা বেছে নিন',whatNext:'আপনি কী করতে চান?',diagnoseBtn:'আমার ফসল পরীক্ষা করুন',diagnoseDesc:'ছবি আপলোড বা লাইভ স্ক্যান',weatherBtn:'আবহাওয়া ঝুঁকি',weatherDesc:'ঋতু রোগ সতর্কতা',alertsBtn:'সতর্কতা',alertsDesc:'রোগ প্রাদুর্ভাব সতর্কতা',dTitle:'ফসল রোগ নির্ণয়',selSeason:'ঋতু বেছে নিন',seasonNote:'আপনার ঋতু বেছে নিন',summer:'☀️ গ্রীষ্ম',monsoon:'🌧️ বর্ষা',winter:'❄️ শীত',rabi:'🌱 রবি',nextCrop:'পরবর্তী: ফসল →',cropTitle:'ফসল বেছে নিন',pickCrop:'আপনার ফসল বেছে নিন',nextUpload:'পরবর্তী: ছবি →',uploadTitle:'ছবি আপলোড',upTitle:'ছবি আপলোড ট্যাপ',upDesc:'JPG বা PNG · 5 MB',orSep:'অথবা',camTitle:'ক্যামেরা খুলুন',camDesc:'আক্রান্ত পাতায় নির্দেশ করুন',analyzeBtn:'🔬 এখনই বিশ্লেষণ',analyzeNote:'2G-তে · ~15 সেকেন্ড',s1of4:'ধাপ 1 / 4',s2of4:'ধাপ 2 / 4',s3of4:'ধাপ 3 / 4',procTitle:'আপনার ফসল বিশ্লেষণ হচ্ছে…',procSub:'AI রোগের নমুনা স্ক্যান করছে',resTitle:'ফলাফল',aiConf:'AI নির্ভরযোগ্যতা',audioLbl:'আপনার নির্ণয় শুনুন',expTitle:'কম আত্মবিশ্বাস — বিশেষজ্ঞ',expDesc:'AI আত্মবিশ্বাস 60%-এর নিচে।',expBtn:'বিশেষজ্ঞ অনুরোধ →',orgTab:'🌿 জৈব',chemTab:'🧪 রাসায়নিক',goHome:'← হোমে ফিরুন',goHome2:'← হোমে ফিরুন',wTitle:'আবহাওয়া ঝুঁকি',wCity:'চেন্নাই · তামিলনাড়ু · বর্ষা',seasRisks:'মৌসুমী ঝুঁকি',curSeas:'বর্তমান মৌসুম: বর্ষা',seasDis:'ধান ক্ষেতে পাতা ঝলসানো, ব্লাস্ট রোগের ঝুঁকি।',thisMon:'এই মাসে: মার্চ',monDis:'ধানে শীথ রট এবং টমেটোতে আর্লি ব্লাইট।',farmTips:'কৃষক পরামর্শ',tipH:'জল ব্যবস্থাপনা',tipB:'জলাবদ্ধতা এড়িয়ে চলুন।',aTitle:'সতর্কতা',a1h:'ব্লাস্ট রোগ প্রাদুর্ভাব',a1p:'তাঞ্জাভুর ও তিরুভারুরে রিপোর্ট।',a2h:'ভারী বৃষ্টির সতর্কতা',a2p:'IMD 3-4 দিন ভারী বৃষ্টির পূর্বাভাস।',a3h:'বিনামূল্যে মাটি পরীক্ষা',a3p:'এই শনিবার সরকারি শিবির।',a4h:'নতুন রোগ-প্রতিরোধী জাত',a4p:'CO-51 ধান জাত দোকানে পাওয়া যাচ্ছে।',hTitle:'রোগ নির্ণয়ের ইতিহাস',navHome:'হোম',navAlerts:'সতর্কতা',navHistory:'ইতিহাস'}},
-  mr:{flag:'🦚',label:'मराठी',k:{tagline:'स्मार्ट पीक डॉक्टर',heroSub:'भारतीय शेतकऱ्यांसाठी AI पीक रोग शोध. 2G वर चालतो.',aiPill:'2G तयार · बहुभाषिक AI',chooseLang:'भाषा निवडा',whatNext:'तुम्हाला काय करायचे आहे?',diagnoseBtn:'माझ्या पिकाचे निदान करा',diagnoseDesc:'फोटो अपलोड किंवा लाइव्ह स्कॅन',weatherBtn:'हवामान धोके',weatherDesc:'हंगामी रोग इशारे',alertsBtn:'इशारे',alertsDesc:'प्रादुर्भाव चेतावणी',dTitle:'पीक निदान',selSeason:'हंगाम निवडा',seasonNote:'रोग धोका कमी करण्यासाठी हंगाम निवडा',summer:'☀️ उन्हाळा',monsoon:'🌧️ पावसाळा',winter:'❄️ हिवाळा',rabi:'🌱 रब्बी',nextCrop:'पुढे: पीक निवडा →',cropTitle:'पीक निवडा',pickCrop:'तुमचे पीक निवडा',nextUpload:'पुढे: फोटो →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड टॅप करा',upDesc:'JPG किंवा PNG · 5 MB',orSep:'किंवा',camTitle:'कॅमेरा उघडा',camDesc:'बाधित पान किंवा खोडावर दाखवा',analyzeBtn:'🔬 आत्ता विश्लेषण करा',analyzeNote:'2G वर · ~15 सेकंद',s1of4:'टप्पा 1 / 4',s2of4:'टप्पा 2 / 4',s3of4:'टप्पा 3 / 4',procTitle:'तुमच्या पिकाचे विश्लेषण…',procSub:'AI रोग नमुने स्कॅन करत आहे',resTitle:'निकाल',aiConf:'AI विश्वासार्हता',audioLbl:'तुमचे निदान ऐका',expTitle:'कमी विश्वास — तज्ज्ञ',expDesc:'AI विश्वास 60% पेक्षा कमी.',expBtn:'तज्ज्ञ विनंती →',orgTab:'🌿 सेंद्रिय',chemTab:'🧪 रासायनिक',goHome:'← होमवर परत',goHome2:'← होमवर परत',wTitle:'हवामान धोके',wCity:'चेन्नई · तामिळनाडू · पावसाळा',seasRisks:'हंगामी धोके',curSeas:'सध्याचा हंगाम: पावसाळा',seasDis:'भाताच्या शेतात पर्णदाह, जास्त धोका.',thisMon:'या महिन्यात: मार्च',monDis:'भातात शीथ रॉट आणि टोमॅटोत अर्ली ब्लाइट.',farmTips:'शेतकरी टिप्स',tipH:'जलव्यवस्थापन',tipB:'साचलेले पाणी टाळा.',aTitle:'इशारे',a1h:'ब्लास्ट रोग प्रादुर्भाव',a1p:'तंजावर आणि तिरुवरुरमध्ये नोंदवले.',a2h:'जड पाऊस चेतावणी',a2p:'IMD 3-4 दिवस जड पाऊस.',a3h:'मोफत माती परीक्षण',a3p:'या शनिवारी सरकारी शिबिर.',a4h:'नवीन रोगप्रतिकारक वाण',a4p:'CO-51 भाताचे वाण उपलब्ध.',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'इशारे',navHistory:'इतिहास'}},
-  gu:{flag:'🦁',label:'ગુજરાતી',k:{tagline:'સ્માર્ટ પાક ડૉક્ટર',heroSub:'ભારતીય ખેડૂતો માટે AI પાક રોગ શોધ. 2G પર કામ.',aiPill:'2G તૈયાર · બહુભાષી AI',chooseLang:'ભાષા પસંદ કરો',whatNext:'તમે શું કરવા ઈચ્છો?',diagnoseBtn:'મારા પાકનું નિદાન',diagnoseDesc:'ફોટો અપલોડ અથવા લાઇવ સ્કૅન',weatherBtn:'હવામાન જોખમ',weatherDesc:'ઋતુ રોગ ચેતવણી',alertsBtn:'ચેતવણી',alertsDesc:'રોગ ફાટી ચેતવણી',dTitle:'પાક નિદાન',selSeason:'ઋતુ પસંદ',seasonNote:'તમારી ઋતુ પસંદ કરો',summer:'☀️ ઉનાળો',monsoon:'🌧️ ચોમાસું',winter:'❄️ શિયાળો',rabi:'🌱 રવિ',nextCrop:'આગળ: પાક →',cropTitle:'પાક પસંદ',pickCrop:'તમારો પાક પસંદ',nextUpload:'આગળ: ફોટો →',uploadTitle:'ફોટો અપલોડ',upTitle:'ફોટો અપલોડ ટૅપ',upDesc:'JPG અથવા PNG · 5 MB',orSep:'અથવા',camTitle:'કૅમેરા ખોલો',camDesc:'અસરગ્રસ્ત પાન પર નિર્દેશ',analyzeBtn:'🔬 હવે વિશ્લેષણ',analyzeNote:'2G પર · ~15 સેકન્ડ',s1of4:'પગલું 1 / 4',s2of4:'પગલું 2 / 4',s3of4:'પગલું 3 / 4',procTitle:'તમારા પાકનું વિશ્લેષણ…',procSub:'AI રોગ પૅટર્ન સ્કૅન',resTitle:'પરિણામ',aiConf:'AI વિશ્વસનીયતા',audioLbl:'તમારું નિદાન સાંભળો',expTitle:'ઓછો વિશ્વાસ — નિષ્ણાત',expDesc:'AI વિશ્વાસ 60% કરતાં ઓછો.',expBtn:'નિષ્ણાત વિનંતી →',orgTab:'🌿 કાર્બનિક',chemTab:'🧪 રાસાયણિક',goHome:'← હોમ',goHome2:'← હોમ',wTitle:'હવામાન જોખમ',wCity:'ચેન્નઈ · તમિળનાડુ · ચોમાસું',seasRisks:'ઋતુ જોખમ',curSeas:'હાલની ઋતુ: ચોમાસું',seasDis:'ડાંગર ખેતરોમાં પર્ણ ઝળ, બ્લાસ્ટ રોગ ઉચ્ચ જોખમ.',thisMon:'આ મહિને: માર્ચ',monDis:'ડાંગરમાં શીથ રૉટ અને ટામેટાંમાં અર્લી બ્લાઇટ.',farmTips:'ખેડૂત ટિપ્સ',tipH:'જળ વ્યવસ્થાપન',tipB:'પાણી ભરાવ ટાળો.',aTitle:'ચેતવણી',a1h:'બ્લાસ્ટ રોગ ફાટ',a1p:'તાન્જાવૂર અને તિરુવારુરમાં નોંધ.',a2h:'ભારે વરસાદ ચેતવણી',a2p:'IMD 3-4 દિવસ ભારે વરસાદ.',a3h:'મફત જમીન પરીક્ષણ',a3p:'આ શનિવારે સરકારી શિબિર.',a4h:'નવી રોગ-પ્રતિરોધી જાત',a4p:'CO-51 ડાંગર સહકારી દુકાનોમાં.',hTitle:'નિદાન ઇતિહાસ',navHome:'હોમ',navAlerts:'ચેતવણી',navHistory:'ઇતિહાસ'}}
+  en:{flag:'🇬🇧',label:'English',k:{tagline:'Smart Crop Doctor',heroSub:'AI-powered crop disease detection built for every Indian farmer. Works on 2G.',aiPill:'2G Ready · Multilingual AI',chooseLang:'Choose Language',whatNext:'What would you like to do?',diagnoseBtn:'Diagnose My Crop',diagnoseDesc:'Upload a photo or scan live — instant AI results',weatherBtn:'Weather Risks',weatherDesc:'Season disease alerts',alertsBtn:'Alerts',alertsDesc:'Outbreak warnings',dTitle:'Diagnose Crop',selSeason:'Select Season',seasonNote:'Choose your current growing season',summer:'☀️ Summer',monsoon:'🌧️ Monsoon',winter:'❄️ Winter',rabi:'🌱 Rabi',nextCrop:'Next: Pick Crop →',cropTitle:'Select Crop',pickCrop:'Pick your crop',nextUpload:'Next: Upload Image →',uploadTitle:'Upload Image',upTitle:'Tap to upload photo',upDesc:'JPG or PNG · up to 5 MB',orSep:'or',camTitle:'Open Camera',camDesc:'Point at the affected leaf or stem',analyzeBtn:'🔬 Analyze Now',analyzeNote:'Works on 2G · avg. ~15 seconds',s1of4:'Step 1 of 4',s2of4:'Step 2 of 4',s3of4:'Step 3 of 4',procTitle:'Analyzing your crop…',procSub:'AI is scanning for disease patterns',resTitle:'Results',aiConf:'AI Confidence',audioLbl:'Listen to your diagnosis',expTitle:'Low Confidence — Expert Review',expDesc:'AI confidence below 60%. An agronomist will review & SMS you within 24 hrs.',expBtn:'Request Expert →',orgTab:'🌿 Organic',chemTab:'🧪 Chemical',goHome:'← Back to Home',goHome2:'← Back to Home',wTitle:'Weather Risks',wCity:'Chennai · Tamil Nadu · Monsoon',seasRisks:'Seasonal Risks',curSeas:'Current Season: Monsoon',seasDis:'High risk of Leaf Blight, Blast Disease, and Brown Spot in paddy. Humidity above 80% accelerates fungal spread.',thisMon:'This Month: March',monDis:'Watch for Sheath Rot in rice and Early Blight in tomato. Apply preventive fungicide before flowering.',farmTips:'Farmer Tips',tipH:'Water Management',tipB:'Avoid waterlogging. Ensure drainage during heavy rain to prevent root diseases.',aTitle:'Alerts',a1h:'Blast Disease Outbreak',a1p:'Reported in Thanjavur & Tiruvarur. Rice farmers: spray tricyclazole immediately.',a2h:'Heavy Rain Warning',a2p:'IMD predicts 3–4 days of heavy rainfall. Delay pesticide sprays.',a3h:'Free Soil Test Camp',a3p:'Government camp at your nearest KVK this Saturday, 9 AM – 2 PM.',a4h:'New Blight-Resistant Variety',a4p:'CO-51 paddy variety now at cooperative stores.',hTitle:'History',navHome:'Home',navAlerts:'Alerts',navHistory:'History'}},ta:{flag:'🌿',label:'தமிழ்',k:{tagline:'திறமையான பயிர் மருத்துவர்',heroSub:'இந்திய விவசாயிகளுக்கான AI நோய் கண்டறிவி. 2G இல் வேலை செய்கிறது.',aiPill:'2G தயார் · பல மொழி AI',chooseLang:'மொழி தேர்வு',whatNext:'நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?',diagnoseBtn:'என் பயிரை கண்டறி',diagnoseDesc:'படம் ஏற்று அல்லது நேரடி ஸ்கேன்',weatherBtn:'வானிலை அபாயங்கள்',weatherDesc:'பருவ நோய் எச்சரிக்கை',alertsBtn:'எச்சரிக்கைகள்',alertsDesc:'நோய் தொற்று எச்சரிக்கை',dTitle:'பயிர் கண்டறிவு',selSeason:'பருவம் தேர்வு',seasonNote:'உங்கள் பருவத்தை தேர்ந்தெடுக்கவும்',summer:'☀️ கோடை',monsoon:'🌧️ மழைக்காலம்',winter:'❄️ குளிர்காலம்',rabi:'🌱 ரபி',nextCrop:'அடுத்து: பயிர் தேர்வு →',cropTitle:'பயிர் தேர்வு',pickCrop:'உங்கள் பயிரை தேர்ந்தெடுக்கவும்',nextUpload:'அடுத்து: படம் ஏற்று →',uploadTitle:'படம் ஏற்று',upTitle:'படத்தை ஏற்ற தொடவும்',upDesc:'JPG அல்லது PNG · 5 MB வரை',orSep:'அல்லது',camTitle:'கேமரா திற',camDesc:'பாதிக்கப்பட்ட இலை அல்லது தண்டை நோக்கவும்',analyzeBtn:'🔬 இப்போது பகுப்பாய்வு',analyzeNote:'2G இல் வேலை · சராசரி ~15 வினாடி',s1of4:'படி 1 / 4',s2of4:'படி 2 / 4',s3of4:'படி 3 / 4',procTitle:'உங்கள் பயிரை பகுப்பாய்வு செய்கிறோம்…',procSub:'AI நோய் முறைகளை கண்டறிகிறது',resTitle:'முடிவுகள்',aiConf:'AI நம்பகத்தன்மை',audioLbl:'உங்கள் கண்டறிவை கேளுங்கள்',expTitle:'குறைந்த நம்பகத்தன்மை — நிபுணர் மதிப்பாய்வு',expDesc:'AI நம்பகத்தன்மை 60% க்கும் குறைவு.',expBtn:'நிபுணர் கோருக →',orgTab:'🌿 இயற்கை',chemTab:'🧪 வேதியியல்',goHome:'← முகப்புக்கு திரும்பு',goHome2:'← முகப்புக்கு திரும்பு',wTitle:'வானிலை அபாயங்கள்',wCity:'சென்னை · தமிழ்நாடு · மழைக்காலம்',seasRisks:'பருவ நோய் அபாயங்கள்',curSeas:'தற்போதைய பருவம்: மழைக்காலம்',seasDis:'நெல் வயல்களில் இலை தீ, வெடிப்பு நோய் அதிக ஆபத்து.',thisMon:'இந்த மாதம்: மார்ச்',monDis:'நெல்லில் ஷீத் ராட் மற்றும் தக்காளியில் ஆர்லி ப்ளைட் கவனியுங்கள்.',farmTips:'விவசாயி குறிப்புகள்',tipH:'நீர் மேலாண்மை',tipB:'நீர்தேக்கத்தை தவிர்க்கவும்.',aTitle:'எச்சரிக்கைகள்',a1h:'வெடிப்பு நோய் தொற்று',a1p:'தஞ்சாவூர் & திருவாரூரில் தெரிவிக்கப்பட்டது.',a2h:'கனமழை எச்சரிக்கை',a2p:'IMD 3-4 நாட்கள் கனமழை கணிக்கிறது.',a3h:'இலவச மண் சோதனை முகாம்',a3p:'இந்த சனிக்கிழமை அரசு மண் சோதனை முகாம்.',a4h:'புதிய பயிர் வகை',a4p:'CO-51 நெல் வகை கூட்டுறவு கடைகளில் கிடைக்கிறது.',hTitle:'கண்டறிவு வரலாறு',navHome:'முகப்பு',navAlerts:'எச்சரிக்கை',navHistory:'வரலாறு'}},hi:{flag:'🇮🇳',label:'हिंदी',k:{tagline:'स्मार्ट फसल डॉक्टर',heroSub:'भारतीय किसानों के लिए AI फसल रोग पहचान। 2G पर काम करता है।',aiPill:'2G तैयार · बहुभाषी AI',chooseLang:'भाषा चुनें',whatNext:'आप क्या करना चाहते हैं?',diagnoseBtn:'फसल का निदान करें',diagnoseDesc:'फोटो अपलोड करें या लाइव स्कैन',weatherBtn:'मौसम जोखिम',weatherDesc:'मौसमी रोग अलर्ट',alertsBtn:'अलर्ट',alertsDesc:'प्रकोप चेतावनी',dTitle:'फसल निदान',selSeason:'मौसम चुनें',seasonNote:'रोग जोखिम कम करने के लिए मौसम चुनें',summer:'☀️ गर्मी',monsoon:'🌧️ मानसून',winter:'❄️ सर्दी',rabi:'🌱 रबी',nextCrop:'अगला: फसल चुनें →',cropTitle:'फसल चुनें',pickCrop:'अपनी फसल चुनें',nextUpload:'अगला: फोटो अपलोड →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड करने के लिए टैप करें',upDesc:'JPG या PNG · 5 MB तक',orSep:'या',camTitle:'कैमरा खोलें',camDesc:'प्रभावित पत्ती या तने पर इशारा करें',analyzeBtn:'🔬 अभी विश्लेषण करें',analyzeNote:'2G पर काम करता है · ~15 सेकंड औसत',s1of4:'चरण 1 / 4',s2of4:'चरण 2 / 4',s3of4:'चरण 3 / 4',procTitle:'आपकी फसल का विश्लेषण हो रहा है…',procSub:'AI रोग पैटर्न खोज रहा है',resTitle:'परिणाम',aiConf:'AI विश्वसनीयता',audioLbl:'अपना निदान सुनें',expTitle:'कम विश्वास — विशेषज्ञ समीक्षा',expDesc:'AI विश्वास 60% से कम। विशेषज्ञ 24 घंटे में SMS करेगा।',expBtn:'विशेषज्ञ समीक्षा →',orgTab:'🌿 जैविक',chemTab:'🧪 रासायनिक',goHome:'← होम पर वापस',goHome2:'← होम पर वापस',wTitle:'मौसम जोखिम',wCity:'चेन्नई · तमिलनाडु · मानसून',seasRisks:'मौसमी जोखिम',curSeas:'वर्तमान मौसम: मानसून',seasDis:'धान में पर्ण झुलसा, ब्लास्ट रोग का अधिक खतरा।',thisMon:'इस महीने: मार्च',monDis:'धान में शीथ रॉट और टमाटर में अर्ली ब्लाइट पर ध्यान दें।',farmTips:'किसान सुझाव',tipH:'जल प्रबंधन',tipB:'जलभराव से बचें। भारी बारिश में उचित जल निकासी सुनिश्चित करें।',aTitle:'अलर्ट',a1h:'ब्लास्ट रोग प्रकोप',a1p:'तंजावुर और तिरुवरूर में रिपोर्ट। तुरंत ट्राइसाइक्लाजोल छिड़कें।',a2h:'भारी बारिश चेतावनी',a2p:'IMD 3-4 दिन भारी बारिश का अनुमान।',a3h:'मुफ्त मृदा परीक्षण शिबिर',a3p:'इस शनिवार सरकारी शिबिर, सुबह 9 – दोपहर 2।',a4h:'नई रोग-रोधी किस्म',a4p:'CO-51 धान किस्म सहकारी दुकानों पर उपलब्ध।',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'अलर्ट',navHistory:'इतिहास'}},te:{flag:'🌾',label:'తెలుగు',k:{tagline:'స్మార్ట్ పంట వైద్యుడు',heroSub:'భారతీయ రైతులకు AI పంట వ్యాధి గుర్తింపు. 2G లో పనిచేస్తుంది.',aiPill:'2G సిద్ధం · బహుభాషా AI',chooseLang:'భాష ఎంచుకోండి',whatNext:'మీరు ఏమి చేయాలనుకుంటున్నారు?',diagnoseBtn:'నా పంటను నిర్ధారించండి',diagnoseDesc:'ఫోటో అప్‌లోడ్ లేదా లైవ్ స్కాన్',weatherBtn:'వాతావరణ ప్రమాదాలు',weatherDesc:'సీజన్ హెచ్చరికలు',alertsBtn:'హెచ్చరికలు',alertsDesc:'ప్రకోప హెచ్చరికలు',dTitle:'పంట నిర్ధారణ',selSeason:'సీజన్ ఎంచుకోండి',seasonNote:'మీ సీజన్ ఎంచుకోండి',summer:'☀️ వేసవి',monsoon:'🌧️ వర్షాకాలం',winter:'❄️ శీతాకాలం',rabi:'🌱 రబీ',nextCrop:'తర్వాత: పంట →',cropTitle:'పంట ఎంచుకోండి',pickCrop:'మీ పంట ఎంచుకోండి',nextUpload:'తర్వాత: చిత్రం →',uploadTitle:'చిత్రం అప్‌లోడ్',upTitle:'ఫోటో అప్‌లోడ్ నొక్కండి',upDesc:'JPG లేదా PNG · 5 MB',orSep:'లేదా',camTitle:'కెమెరా తెరవండి',camDesc:'ప్రభావిత ఆకు లేదా కాండంపై చూపించండి',analyzeBtn:'🔬 ఇప్పుడే విశ్లేషించండి',analyzeNote:'2G లో · సుమారు 15 సెకన్లు',s1of4:'దశ 1 / 4',s2of4:'దశ 2 / 4',s3of4:'దశ 3 / 4',procTitle:'మీ పంటను విశ్లేషిస్తున్నాం…',procSub:'AI స్కాన్ చేస్తోంది',resTitle:'ఫలితాలు',aiConf:'AI విశ్వసనీయత',audioLbl:'మీ నిర్ధారణ వినండి',expTitle:'తక్కువ విశ్వాసం — నిపుణుల సమీక్ష',expDesc:'AI విశ్వాసం 60% కంటే తక్కువ.',expBtn:'నిపుణుడిని అభ్యర్థించండి →',orgTab:'🌿 సేంద్రీయ',chemTab:'🧪 రసాయన',goHome:'← హోమ్‌కు',goHome2:'← హోమ్‌కు',wTitle:'వాతావరణ ప్రమాదాలు',wCity:'చెన్నై · తమిళనాడు · వర్షాకాలం',seasRisks:'సీజన్ ప్రమాదాలు',curSeas:'ప్రస్తుత సీజన్: వర్షాకాలం',seasDis:'వరి పొలాల్లో ఆకు మంట, బ్లాస్ట్ వ్యాధి ఎక్కువ ప్రమాదం.',thisMon:'ఈ నెల: మార్చి',monDis:'వరిలో షీత్ రాట్ మరియు టమేటాలో ఎర్లీ బ్లైట్.',farmTips:'రైతు చిట్కాలు',tipH:'నీటి నిర్వహణ',tipB:'నీరు నిల్వ ఉండకుండా చూసుకోండి.',aTitle:'హెచ్చరికలు',a1h:'బ్లాస్ట్ వ్యాధి ప్రకోపం',a1p:'తంజావూరు మరియు తిరువారూర్‌లో నివేదించబడింది.',a2h:'భారీ వర్షం హెచ్చరిక',a2p:'IMD 3-4 రోజులు భారీ వర్షం.',a3h:'ఉచిత మట్టి పరీక్ష',a3p:'ఈ శనివారం ప్రభుత్వ శిబిరం.',a4h:'కొత్త రోగ నిరోధక రకం',a4p:'CO-51 వరి రకం అందుబాటులో.',hTitle:'నిర్ధారణ చరిత్ర',navHome:'హోమ్',navAlerts:'హెచ్చరికలు',navHistory:'చరిత్ర'}},kn:{flag:'🌻',label:'ಕನ್ನಡ',k:{tagline:'ಸ್ಮಾರ್ಟ್ ಬೆಳೆ ವೈದ್ಯ',heroSub:'ಭಾರತೀಯ ರೈತರಿಗಾಗಿ AI ಬೆಳೆ ರೋಗ ಪತ್ತೆ. 2G ಯಲ್ಲಿ ಕಾರ್ಯ.',aiPill:'2G ಸಿದ್ಧ · ಬಹುಭಾಷಾ AI',chooseLang:'ಭಾಷೆ ಆಯ್ಕೆ',whatNext:'ನೀವು ಏನು ಮಾಡಲು ಬಯಸುತ್ತೀರಿ?',diagnoseBtn:'ನನ್ನ ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',diagnoseDesc:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಅಥವಾ ಲೈವ್ ಸ್ಕ್ಯಾನ್',weatherBtn:'ಹವಾಮಾನ ಅಪಾಯ',weatherDesc:'ಋತು ರೋಗ ಎಚ್ಚರಿಕೆ',alertsBtn:'ಎಚ್ಚರಿಕೆಗಳು',alertsDesc:'ಪ್ರಕೋಪ ಎಚ್ಚರಿಕೆ',dTitle:'ಬೆಳೆ ರೋಗ ನಿರ್ಣಯ',selSeason:'ಋತು ಆಯ್ಕೆ',seasonNote:'ನಿಮ್ಮ ಋತು ಆಯ್ಕೆ ಮಾಡಿ',summer:'☀️ ಬೇಸಿಗೆ',monsoon:'🌧️ ಮಳೆಗಾಲ',winter:'❄️ ಚಳಿಗಾಲ',rabi:'🌱 ರಬಿ',nextCrop:'ಮುಂದೆ: ಬೆಳೆ ಆಯ್ಕೆ →',cropTitle:'ಬೆಳೆ ಆಯ್ಕೆ',pickCrop:'ನಿಮ್ಮ ಬೆಳೆ ಆಯ್ಕೆ ಮಾಡಿ',nextUpload:'ಮುಂದೆ: ಚಿತ್ರ ಅಪ್‌ಲೋಡ್ →',uploadTitle:'ಚಿತ್ರ ಅಪ್‌ಲೋಡ್',upTitle:'ಫೋಟೋ ಅಪ್‌ಲೋಡ್ ಟ್ಯಾಪ್',upDesc:'JPG ಅಥವಾ PNG · 5 MB',orSep:'ಅಥವಾ',camTitle:'ಕ್ಯಾಮೆರಾ ತೆರೆಯಿರಿ',camDesc:'ಬಾಧಿತ ಎಲೆ ಅಥವಾ ಕಾಂಡದ ಮೇಲೆ',analyzeBtn:'🔬 ಈಗ ವಿಶ್ಲೇಷಿಸಿ',analyzeNote:'2G ಯಲ್ಲಿ · ~15 ಸೆಕೆಂಡ್',s1of4:'ಹಂತ 1 / 4',s2of4:'ಹಂತ 2 / 4',s3of4:'ಹಂತ 3 / 4',procTitle:'ನಿಮ್ಮ ಬೆಳೆ ವಿಶ್ಲೇಷಣೆ…',procSub:'AI ರೋಗ ಮಾದರಿ ಸ್ಕ್ಯಾನ್',resTitle:'ಫಲಿತಾಂಶ',aiConf:'AI ವಿಶ್ವಾಸಾರ್ಹತೆ',audioLbl:'ನಿಮ್ಮ ರೋಗ ನಿರ್ಣಯ ಕೇಳಿ',expTitle:'ಕಡಿಮೆ ವಿಶ್ವಾಸ — ತಜ್ಞ ಪರಿಶೀಲನೆ',expDesc:'AI ವಿಶ್ವಾಸ 60% ಕ್ಕಿಂತ ಕಡಿಮೆ.',expBtn:'ತಜ್ಞ ಕೋರಿಕೆ →',orgTab:'🌿 ಸಾವಯವ',chemTab:'🧪 ರಾಸಾಯನಿಕ',goHome:'← ಮನೆಗೆ ಮರಳಿ',goHome2:'← ಮನೆಗೆ ಮರಳಿ',wTitle:'ಹವಾಮಾನ ಅಪಾಯ',wCity:'ಚೆನ್ನೈ · ತಮಿಳುನಾಡು · ಮಳೆಗಾಲ',seasRisks:'ಋತು ಅಪಾಯಗಳು',curSeas:'ಪ್ರಸ್ತುತ ಋತು: ಮಳೆಗಾಲ',seasDis:'ಭತ್ತದ ಗದ್ದೆಗಳಲ್ಲಿ ಎಲೆ ಬೆಂಕಿ, ಬ್ಲಾಸ್ಟ್ ರೋಗ ಹೆಚ್ಚಿನ ಅಪಾಯ.',thisMon:'ಈ ತಿಂಗಳು: ಮಾರ್ಚ್',monDis:'ಭತ್ತದಲ್ಲಿ ಶೀತ್ ರಾಟ್ ಮತ್ತು ಟೊಮ್ಯಾಟೊದಲ್ಲಿ ಅರ್ಲಿ ಬ್ಲೈಟ್.',farmTips:'ರೈತ ಸಲಹೆ',tipH:'ನೀರು ನಿರ್ವಹಣೆ',tipB:'ನೀರು ಶೇಖರಣೆ ತಡೆಯಿರಿ.',aTitle:'ಎಚ್ಚರಿಕೆಗಳು',a1h:'ಬ್ಲಾಸ್ಟ್ ರೋಗ ಪ್ರಕೋಪ',a1p:'ತಂಜಾವೂರು ಮತ್ತು ತಿರುವಾರೂರಿನಲ್ಲಿ ವರದಿ.',a2h:'ಭಾರೀ ಮಳೆ ಎಚ್ಚರಿಕೆ',a2p:'IMD 3-4 ದಿನ ಭಾರೀ ಮಳೆ ಮುನ್ಸೂಚನೆ.',a3h:'ಉಚಿತ ಮಣ್ಣು ಪರೀಕ್ಷೆ',a3p:'ಈ ಶನಿವಾರ ಸರ್ಕಾರಿ ಶಿಬಿರ.',a4h:'ಹೊಸ ರೋಗ-ನಿರೋಧಕ ತಳಿ',a4p:'CO-51 ಭತ್ತದ ತಳಿ ಲಭ್ಯ.',hTitle:'ರೋಗ ನಿರ್ಣಯ ಇತಿಹಾಸ',navHome:'ಮನೆ',navAlerts:'ಎಚ್ಚರಿಕೆ',navHistory:'ಇತಿಹಾಸ'}},bn:{flag:'🐯',label:'বাংলা',k:{tagline:'স্মার্ট ফসল চিকিৎসক',heroSub:'ভারতীয় কৃষকদের জন্য AI ফসল রোগ শনাক্তকারী। 2G-তে কাজ করে।',aiPill:'2G প্রস্তুত · বহুভাষিক AI',chooseLang:'ভাষা বেছে নিন',whatNext:'আপনি কী করতে চান?',diagnoseBtn:'আমার ফসল পরীক্ষা করুন',diagnoseDesc:'ছবি আপলোড বা লাইভ স্ক্যান',weatherBtn:'আবহাওয়া ঝুঁকি',weatherDesc:'ঋতু রোগ সতর্কতা',alertsBtn:'সতর্কতা',alertsDesc:'রোগ প্রাদুর্ভাব সতর্কতা',dTitle:'ফসল রোগ নির্ণয়',selSeason:'ঋতু বেছে নিন',seasonNote:'আপনার ঋতু বেছে নিন',summer:'☀️ গ্রীষ্ম',monsoon:'🌧️ বর্ষা',winter:'❄️ শীত',rabi:'🌱 রবি',nextCrop:'পরবর্তী: ফসল →',cropTitle:'ফসল বেছে নিন',pickCrop:'আপনার ফসল বেছে নিন',nextUpload:'পরবর্তী: ছবি →',uploadTitle:'ছবি আপলোড',upTitle:'ছবি আপলোড ট্যাপ',upDesc:'JPG বা PNG · 5 MB',orSep:'অথবা',camTitle:'ক্যামেরা খুলুন',camDesc:'আক্রান্ত পাতায় নির্দেশ করুন',analyzeBtn:'🔬 এখনই বিশ্লেষণ',analyzeNote:'2G-তে · ~15 সেকেন্ড',s1of4:'ধাপ 1 / 4',s2of4:'ধাপ 2 / 4',s3of4:'ধাপ 3 / 4',procTitle:'আপনার ফসল বিশ্লেষণ হচ্ছে…',procSub:'AI রোগের নমুনা স্ক্যান করছে',resTitle:'ফলাফল',aiConf:'AI নির্ভরযোগ্যতা',audioLbl:'আপনার নির্ণয় শুনুন',expTitle:'কম আত্মবিশ্বাস — বিশেষজ্ঞ',expDesc:'AI আত্মবিশ্বাস 60%-এর নিচে।',expBtn:'বিশেষজ্ঞ অনুরোধ →',orgTab:'🌿 জৈব',chemTab:'🧪 রাসায়নিক',goHome:'← হোমে ফিরুন',goHome2:'← হোমে ফিরুন',wTitle:'আবহাওয়া ঝুঁকি',wCity:'চেন্নাই · তামিলনাড়ু · বর্ষা',seasRisks:'মৌসুমী ঝুঁকি',curSeas:'বর্তমান মৌসুম: বর্ষা',seasDis:'ধান ক্ষেতে পাতা ঝলসানো, ব্লাস্ট রোগের ঝুঁকি।',thisMon:'এই মাসে: মার্চ',monDis:'ধানে শীথ রট এবং টমেটোতে আর্লি ব্লাইট।',farmTips:'কৃষক পরামর্শ',tipH:'জল ব্যবস্থাপনা',tipB:'জলাবদ্ধতা এড়িয়ে চলুন।',aTitle:'সতর্কতা',a1h:'ব্লাস্ট রোগ প্রাদুর্ভাব',a1p:'তাঞ্জাভুর ও তিরুভারুরে রিপোর্ট।',a2h:'ভারী বৃষ্টির সতর্কতা',a2p:'IMD 3-4 দিন ভারী বৃষ্টির পূর্বাভাস।',a3h:'বিনামূল্যে মাটি পরীক্ষা',a3p:'এই শনিবার সরকারি শিবির।',a4h:'নতুন রোগ-প্রতিরোধী জাত',a4p:'CO-51 ধান জাত দোকানে পাওয়া যাচ্ছে।',hTitle:'রোগ নির্ণয়ের ইতিহাস',navHome:'হোম',navAlerts:'সতর্কতা',navHistory:'ইতিহাস'}},mr:{flag:'🦚',label:'मराठी',k:{tagline:'स्मार्ट पीक डॉक्टर',heroSub:'भारतीय शेतकऱ्यांसाठी AI पीक रोग शोध. 2G वर चालतो.',aiPill:'2G तयार · बहुभाषिक AI',chooseLang:'भाषा निवडा',whatNext:'तुम्हाला काय करायचे आहे?',diagnoseBtn:'माझ्या पिकाचे निदान करा',diagnoseDesc:'फोटो अपलोड किंवा लाइव्ह स्कॅन',weatherBtn:'हवामान धोके',weatherDesc:'हंगामी रोग इशारे',alertsBtn:'इशारे',alertsDesc:'प्रादुर्भाव चेतावणी',dTitle:'पीक निदान',selSeason:'हंगाम निवडा',seasonNote:'रोग धोका कमी करण्यासाठी हंगाम निवडा',summer:'☀️ उन्हाळा',monsoon:'🌧️ पावसाळा',winter:'❄️ हिवाळा',rabi:'🌱 रब्बी',nextCrop:'पुढे: पीक निवडा →',cropTitle:'पीक निवडा',pickCrop:'तुमचे पीक निवडा',nextUpload:'पुढे: फोटो →',uploadTitle:'फोटो अपलोड',upTitle:'फोटो अपलोड टॅप करा',upDesc:'JPG किंवा PNG · 5 MB',orSep:'किंवा',camTitle:'कॅमेरा उघडा',camDesc:'बाधित पान किंवा खोडावर दाखवा',analyzeBtn:'🔬 आत्ता विश्लेषण करा',analyzeNote:'2G वर · ~15 सेकंद',s1of4:'टप्पा 1 / 4',s2of4:'टप्पा 2 / 4',s3of4:'टप्पा 3 / 4',procTitle:'तुमच्या पिकाचे विश्लेषण…',procSub:'AI रोग नमुने स्कॅन करत आहे',resTitle:'निकाल',aiConf:'AI विश्वासार्हता',audioLbl:'तुमचे निदान ऐका',expTitle:'कमी विश्वास — तज्ज्ञ',expDesc:'AI विश्वास 60% पेक्षा कमी.',expBtn:'तज्ज्ञ विनंती →',orgTab:'🌿 सेंद्रिय',chemTab:'🧪 रासायनिक',goHome:'← होमवर परत',goHome2:'← होमवर परत',wTitle:'हवामान धोके',wCity:'चेन्नई · तामिळनाडू · पावसाळा',seasRisks:'हंगामी धोके',curSeas:'सध्याचा हंगाम: पावसाळा',seasDis:'भाताच्या शेतात पर्णदाह, जास्त धोका.',thisMon:'या महिन्यात: मार्च',monDis:'भातात शीथ रॉट आणि टोमॅटोत अर्ली ब्लाइट.',farmTips:'शेतकरी टिप्स',tipH:'जलव्यवस्थापन',tipB:'साचलेले पाणी टाळा.',aTitle:'इशारे',a1h:'ब्लास्ट रोग प्रादुर्भाव',a1p:'तंजावर आणि तिरुवरुरमध्ये नोंदवले.',a2h:'जड पाऊस चेतावणी',a2p:'IMD 3-4 दिवस जड पाऊस.',a3h:'मोफत माती परीक्षण',a3p:'या शनिवारी सरकारी शिबिर.',a4h:'नवीन रोगप्रतिकारक वाण',a4p:'CO-51 भाताचे वाण उपलब्ध.',hTitle:'निदान इतिहास',navHome:'होम',navAlerts:'इशारे',navHistory:'इतिहास'}},gu:{flag:'🦁',label:'ગુજરાતી',k:{tagline:'સ્માર્ટ પાક ડૉક્ટર',heroSub:'ભારતીય ખેડૂતો માટે AI પાક રોગ શોધ. 2G પર કામ.',aiPill:'2G તૈયાર · બહુભાષી AI',chooseLang:'ભાષા પસંદ કરો',whatNext:'તમે શું કરવા ઈચ્છો?',diagnoseBtn:'મારા પાકનું નિદાન',diagnoseDesc:'ફોટો અપલોડ અથવા લાઇવ સ્કૅન',weatherBtn:'હવામાન જોખમ',weatherDesc:'ઋતુ રોગ ચેતવણી',alertsBtn:'ચેતવણી',alertsDesc:'રોગ ફાટી ચેતવણી',dTitle:'પાક નિદાન',selSeason:'ઋતુ પસંદ',seasonNote:'તમારી ઋતુ પસંદ કરો',summer:'☀️ ઉનાળો',monsoon:'🌧️ ચોમાસું',winter:'❄️ શિયાળો',rabi:'🌱 રવિ',nextCrop:'આગળ: પાક →',cropTitle:'પાક પસંદ',pickCrop:'તમારો પાક પસંદ',nextUpload:'આગળ: ફોટો →',uploadTitle:'ફોટો અપલોડ',upTitle:'ફોટો અપલોડ ટૅપ',upDesc:'JPG અથવા PNG · 5 MB',orSep:'અથવા',camTitle:'કૅમેરા ખોલો',camDesc:'અસરગ્રસ્ત પાન પર નિર્દેશ',analyzeBtn:'🔬 હવે વિશ્લેષણ',analyzeNote:'2G પર · ~15 સેકન્ડ',s1of4:'પગલું 1 / 4',s2of4:'પગલું 2 / 4',s3of4:'પગલું 3 / 4',procTitle:'તમારા પાકનું વિશ્લેષણ…',procSub:'AI રોગ પૅટર્ન સ્કૅન',resTitle:'પરિણામ',aiConf:'AI વિશ્વસનીયતા',audioLbl:'તમારું નિદાન સાંભળો',expTitle:'ઓછો વિશ્વાસ — નિષ્ણાત',expDesc:'AI વિશ્વાસ 60% કરતાં ઓછો.',expBtn:'નિષ્ણાત વિનંતી →',orgTab:'🌿 કાર્બનિક',chemTab:'🧪 રાસાયણિક',goHome:'← હોમ',goHome2:'← હોમ',wTitle:'હવામાન જોખમ',wCity:'ચેન્નઈ · તમિળનાડુ · ચોમાસું',seasRisks:'ઋતુ જોખમ',curSeas:'હાલની ઋતુ: ચોમાસું',seasDis:'ડાંગર ખેતરોમાં પર્ણ ઝળ, બ્લાસ્ટ રોગ ઉચ્ચ જોખમ.',thisMon:'આ મહિને: માર્ચ',monDis:'ડાંગરમાં શીથ રૉટ અને ટામેટાંમાં અર્લી બ્લાઇટ.',farmTips:'ખેડૂત ટિપ્સ',tipH:'જળ વ્યવસ્થાપન',tipB:'પાણી ભરાવ ટાળો.',aTitle:'ચેતવણી',a1h:'બ્લાસ્ટ રોગ ફાટ',a1p:'તાન્જાવૂર અને તિરુવારુરમાં નોંધ.',a2h:'ભારે વરસાદ ચેતવણી',a2p:'IMD 3-4 દિવસ ભારે વરસાદ.',a3h:'મફત જમીન પરીક્ષણ',a3p:'આ શનિવારે સરકારી શિબિર.',a4h:'નવી રોગ-પ્રતિરોધી જાત',a4p:'CO-51 ડાંગર સહકારી દુકાનોમાં.',hTitle:'નિદાન ઇતિહાસ',navHome:'હોમ',navAlerts:'ચેતવણી',navHistory:'ઇતિહાસ'}}
 };
 
 const CROPS={summer:[{e:'🌽',n:'Maize'},{e:'🥜',n:'Groundnut'},{e:'🌶',n:'Chilli'},{e:'🧅',n:'Onion'},{e:'🍅',n:'Tomato'},{e:'🥒',n:'Cucumber'}],monsoon:[{e:'🌾',n:'Paddy'},{e:'🌿',n:'Sugarcane'},{e:'🫘',n:'Soybean'},{e:'🥦',n:'Brinjal'},{e:'🌱',n:'Jute'},{e:'🍃',n:'Ginger'}],winter:[{e:'🌾',n:'Wheat'},{e:'🫛',n:'Peas'},{e:'🥕',n:'Carrot'},{e:'🥬',n:'Mustard'},{e:'🧄',n:'Garlic'},{e:'🌻',n:'Sunflower'}],rabi:[{e:'🌾',n:'Barley'},{e:'🌿',n:'Lentil'},{e:'🫘',n:'Chickpea'},{e:'🥔',n:'Potato'},{e:'🌱',n:'Fenugreek'},{e:'🍵',n:'Coriander'}]};
 
-const DISEASES=[
-  {name:'Leaf Blight',conf:78,sev:'high',spread:'3–5 days',treat:true,organic:['Remove and destroy all visibly infected leaves immediately to slow spread.','Mix 5ml neem oil in 1L water; spray every 3 days on all leaf surfaces.','Apply copper-based Bordeaux mixture (1%) early morning for best absorption.','Reduce crowding by thinning excess tillers to improve air circulation.'],chemical:['Apply Propiconazole 25EC at 1ml per litre of water every 10 days.','Spray Tricyclazole 75WP (0.6g/L) focusing on young emerging leaves.','Follow with Carbendazim 50WP (1g/L) after 7 days if infection persists.','Avoid spraying during rain or wind to ensure effective coverage.']},
-  {name:'Blast Disease',conf:45,sev:'medium',spread:'5–7 days',treat:true,organic:['Burn all infected straw and stubble after harvest to destroy spores.','Apply wood ash around plant base to inhibit spore germination.','Spray Trichoderma viride bio-fungicide (10g/L) as preventive measure.','Remove weeds that may harbor fungal spores around the field.'],chemical:['Spray Isoprothiolane 40EC (1.5ml/L) at panicle initiation stage.','Apply Edifenphos 50EC (1ml/L) in evening for maximum effectiveness.','Repeat spray after 10 days if disease pressure remains high.','Alternate fungicides to prevent resistance development.']},
-  {name:'Brown Spot',conf:91,sev:'low',spread:'7–10 days',treat:true,organic:['Ensure balanced NPK — potassium boosts natural disease resistance.','Apply Pseudomonas fluorescens (10ml/L) as weekly foliar spray.','Use rice hull ash as soil amendment to strengthen leaf cuticle.','Maintain optimal drainage to reduce humidity-driven infection.'],chemical:['Apply Mancozeb 75WP (2g/L) preventively at early morning.','Use Iprodione 50WP (2g/L) when over 20% leaf area shows symptoms.','Spray Chlorothalonil 75WP (2g/L) for broad-spectrum protection.','Stop chemical sprays 14 days before harvest for food safety.']}
-];
+const DISEASES=[{name:'Leaf Blight',conf:78,sev:'high',spread:'3–5 days',treat:true,organic:['Remove and destroy all visibly infected leaves immediately to slow spread.','Mix 5ml neem oil in 1L water; spray every 3 days on all leaf surfaces.','Apply copper-based Bordeaux mixture (1%) early morning for best absorption.','Reduce crowding by thinning excess tillers to improve air circulation.'],chemical:['Apply Propiconazole 25EC at 1ml per litre of water every 10 days.','Spray Tricyclazole 75WP (0.6g/L) focusing on young emerging leaves.','Follow with Carbendazim 50WP (1g/L) after 7 days if infection persists.','Avoid spraying during rain or wind to ensure effective coverage.']},{name:'Blast Disease',conf:45,sev:'medium',spread:'5–7 days',treat:true,organic:['Burn all infected straw and stubble after harvest to destroy spores.','Apply wood ash around plant base to inhibit spore germination.','Spray Trichoderma viride bio-fungicide (10g/L) as preventive measure.','Remove weeds that may harbor fungal spores around the field.'],chemical:['Spray Isoprothiolane 40EC (1.5ml/L) at panicle initiation stage.','Apply Edifenphos 50EC (1ml/L) in evening for maximum effectiveness.','Repeat spray after 10 days if disease pressure remains high.','Alternate fungicides to prevent resistance development.']},{name:'Brown Spot',conf:91,sev:'low',spread:'7–10 days',treat:true,organic:['Ensure balanced NPK — potassium boosts natural disease resistance.','Apply Pseudomonas fluorescens (10ml/L) as weekly foliar spray.','Use rice hull ash as soil amendment to strengthen leaf cuticle.','Maintain optimal drainage to reduce humidity-driven infection.'],chemical:['Apply Mancozeb 75WP (2g/L) preventively at early morning.','Use Iprodione 50WP (2g/L) when over 20% leaf area shows symptoms.','Spray Chlorothalonil 75WP (2g/L) for broad-spectrum protection.','Stop chemical sprays 14 days before harvest for food safety.']}];
 
 const HIST_SEED=[{e:'🌾',crop:'Paddy',disease:'Leaf Blight',sev:'high',date:'Today, 10:32 AM'},{e:'🍅',crop:'Tomato',disease:'Early Blight',sev:'medium',date:'Yesterday, 3:18 PM'},{e:'🌽',crop:'Maize',disease:'Downy Mildew',sev:'low',date:'Mar 18, 9:45 AM'},{e:'🥜',crop:'Groundnut',disease:'Cercospora Leaf Spot',sev:'medium',date:'Mar 15, 2:10 PM'}];
 
 let lang='en',season='summer',crop=null,disease=null,playing=false,hist=[...HIST_SEED];
 
-(function(){
-  const w=document.getElementById('langScroll');
-  w.innerHTML=Object.entries(LANGS).map(([c,d])=>`<button class="lbtn${c==='en'?' sel':''}" onclick="setLang('${c}',this)">${d.flag} ${d.label}</button>`).join('');
-  applyLang();
-})();
 
-function goTo(pg){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const el=document.getElementById('page-'+pg);
-  if(el){el.classList.add('active');window.scrollTo(0,0)}
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
-  const m={home:'nav-home',alerts:'nav-alerts',history:'nav-history'};
-  const k=Object.keys(m).find(k=>pg.includes(k));
-  if(k)document.getElementById(m[k]).classList.add('active');
-  if(pg==='history')renderHist();
-}
 
-function setLang(code,btn){
-  lang=code;
-  document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');applyLang();
-}
-function applyLang(){
-  const d=LANGS[lang].k;
-  document.querySelectorAll('[data-key]').forEach(el=>{const v=d[el.dataset.key];if(v!==undefined)el.textContent=v});
-}
+function goTo(pg){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const el=document.getElementById('page-'+pg);if(el){el.classList.add('active');window.scrollTo(0,0)}document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));const m={home:'nav-home',alerts:'nav-alerts',history:'nav-history'};const k=Object.keys(m).find(k=>pg.includes(k));if(k)document.getElementById(m[k]).classList.add('active');if(pg==='history')renderHist()}
+function setLang(code,btn){lang=code;document.querySelectorAll('.lbtn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');applyLang()}
+function applyLang(){const d=LANGS[lang].k;document.querySelectorAll('[data-key]').forEach(el=>{const v=d[el.dataset.key];if(v!==undefined)el.textContent=v})}
 
 function setSeason(s,el){season=s;crop=null;document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
 function goToCrop(){goTo('crop');const g=document.getElementById('cropGrid');g.innerHTML=(CROPS[season]||CROPS.summer).map(c=>`<div class="citem" onclick="pickCrop('${c.n}',this)"><span>${c.e}</span><p>${c.n}</p></div>`).join('')}
 function pickCrop(n,el){crop=n;document.querySelectorAll('.citem').forEach(c=>c.classList.remove('sel'));el.classList.add('sel')}
 function goToUpload(){goTo('upload')}
 
-function handleImg(e){
-  const f=e.target.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=ev=>{const img=document.getElementById('prevImg');img.src=ev.target.result;img.style.display='block';document.querySelector('.iprev .iph').style.display='none'};
-  r.readAsDataURL(f);
-}
+function handleImg(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=document.getElementById('prevImg');img.src=ev.target.result;img.style.display='block';document.querySelector('.iprev .iph').style.display='none'};r.readAsDataURL(f)}
 
-function runAnalysis(){
-  goTo('processing');
-  const pf=document.getElementById('pf');
-  pf.style.animation='none';
-  pf.offsetHeight;
-  pf.style.animation='';
+function runAnalysis(){goTo('processing');const pf=document.getElementById('pf');pf.style.animation='none';pf.offsetHeight;pf.style.animation='';const fileInput=document.getElementById('fi').files[0]||document.getElementById('ci').files[0];const formData=new FormData();formData.append('crop',(crop||'rice').toLowerCase());formData.append('season',season||'monsoon');formData.append('language',lang||'en');if(fileInput)formData.append('image',fileInput);fetch('http://localhost:5000/api/diagnose',{method:'POST',body:formData}).then(res=>res.json()).then(data=>{if(!data.success)throw new Error(data.error);disease={name:data.disease,conf:data.confidence,sev:data.severity==='severe'?'high':data.severity==='moderate'?'medium':'low',spread:data.time_limit||'5-7 days',treat:data.treatable,organic:data.organic?[data.organic,'Remove infected leaves immediately.','Ensure proper drainage around plants.','Avoid overhead watering.']:['No organic treatment available.'],chemical:data.chemical?[data.chemical,'Apply early morning for best results.','Repeat every 7 days if symptoms persist.','Stop spraying 14 days before harvest.']:['No chemical treatment available.'],expert_review:data.expert_review,history_id:data.history_id};hist.unshift({e:'🌱',crop:crop||'Unknown',disease:data.disease,sev:disease.sev,date:'Just now'});renderResult(disease);goTo('results')}).catch(err=>{alert('Error: '+err.message+'\n\nMake sure backend is running:\nnode server.js');goTo('upload')})}
 
-  const fileInput = document.getElementById('fi').files[0]
-                 || document.getElementById('ci').files[0];
-
-  const formData = new FormData();
-  formData.append('crop',     (crop || 'rice').toLowerCase());
-  formData.append('season',   season || 'monsoon');
-  formData.append('language', lang   || 'en');
-  if (fileInput) formData.append('image', fileInput);
-
-  fetch('http://localhost:5000/api/diagnose', {
-    method: 'POST',
-    body:   formData
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (!data.success) throw new Error(data.error);
-    disease = {
-      name:    data.disease,
-      conf:    data.confidence,
-      sev:     data.severity === 'severe'   ? 'high'   :
-               data.severity === 'moderate' ? 'medium' : 'low',
-      spread:  data.time_limit || '5-7 days',
-      treat:   data.treatable,
-      organic: data.organic
-        ? [data.organic,
-           'Remove infected leaves immediately.',
-           'Ensure proper drainage around plants.',
-           'Avoid overhead watering.']
-        : ['No organic treatment available.'],
-      chemical: data.chemical
-        ? [data.chemical,
-           'Apply early morning for best results.',
-           'Repeat every 7 days if symptoms persist.',
-           'Stop spraying 14 days before harvest.']
-        : ['No chemical treatment available.'],
-      expert_review: data.expert_review,
-      history_id:    data.history_id
-    };
-    hist.unshift({
-      e:'🌱', crop: crop||'Unknown',
-      disease: data.disease,
-      sev: disease.sev, date:'Just now'
-    });
-    renderResult(disease);
-    goTo('results');
-  })
-  .catch(err => {
-    alert('Error: ' + err.message +
-          '\n\nMake sure backend is running:\nnode server.js');
-    goTo('upload');
-  });
-}
-
-function renderHist(){
-  const c = document.getElementById('histList');
-  c.innerHTML = '<div class="empty"><span>⏳</span><p>Loading...</p></div>';
-  fetch('http://localhost:5000/api/history')
-  .then(res => res.json())
-  .then(data => {
-    if (!data.data || data.data.length === 0) {
-      c.innerHTML = `<div class="empty">
-        <span>📋</span>
-        <p>No diagnoses yet.<br>Start by scanning your crop!</p>
-      </div>`;
-      return;
-    }
-    c.innerHTML = data.data.map(h => `
-      <div class="hcard">
-        <div class="hico">🌱</div>
-        <div class="hbody">
-          <h4>${h.crop_name}</h4>
-          <p>${h.disease_name}</p>
-          <small>${new Date(h.created_at).toLocaleString()}</small>
-        </div>
-        <div class="hbadge ${
-          h.severity==='severe' ? 'high' :
-          h.severity==='moderate' ? 'medium' : 'low'
-        }">${h.confidence}%</div>
-      </div>
-    `).join('');
-  })
-  .catch(() => {
-    c.innerHTML = hist.map(h=>`
-      <div class="hcard">
-        <div class="hico">${h.e}</div>
-        <div class="hbody">
-          <h4>${h.crop}</h4>
-          <p>${h.disease}</p>
-          <small>${h.date}</small>
-        </div>
-        <div class="hbadge ${h.sev}">${cap(h.sev)}</div>
-      </div>
-    `).join('');
-  });
-}
-function renderResult(d){
-  document.getElementById('confVal').textContent=d.conf+'%';
-  const arc=document.getElementById('confArc'),total=2*Math.PI*31,filled=(d.conf/100)*total;
-  arc.setAttribute('stroke-dasharray',`${filled.toFixed(1)} ${(total-filled).toFixed(1)}`);
-  document.getElementById('rDis').textContent=d.name;
-  document.getElementById('rCrop').textContent=(crop||'Unknown')+' · '+cap(season)+' Season';
-  const sl=d.sev==='high'?'🔴 High Severity':d.sev==='medium'?'🟡 Medium Severity':'🟢 Low Severity';
-  document.getElementById('rBadges').innerHTML=
-    `<div class="rbadge ${d.sev}">${sl}</div>`+
-    `<div class="rbadge">⏱ Spreads in ${d.spread}</div>`+
-    `<div class="rbadge">${d.treat?'✅ Treatable':'❌ Not Treatable'}</div>`;
-  document.getElementById('expertBox').style.display=d.conf<60?'block':'none';
-  renderTreat('organic',d);
-}
-function switchTreat(type,btn){
-  document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');
-  if(disease)renderTreat(type,disease);
-}
 function renderTreat(type,d){
-  const steps=type==='organic'?d.organic:d.chemical;
-  const isOrg=type==='organic';
-  document.getElementById('tContent').innerHTML=steps.map((s,i)=>`<div class="tstep"><div class="tnum" style="${!isOrg?'background:linear-gradient(135deg,var(--teal3),var(--tealdk));box-shadow:0 2px 10px rgba(78,201,196,.3)':''}">${i+1}</div><div class="ttxt">${s}</div></div>`).join('');
+  const treatments={
+    en:{
+      organic:['Remove and destroy all visibly infected leaves immediately to slow spread.','Mix 5ml neem oil in 1L water; spray every 3 days on all leaf surfaces.','Apply copper-based Bordeaux mixture (1%) early morning for best absorption.','Reduce crowding by thinning excess tillers to improve air circulation.'],
+      chemical:['Apply Propiconazole 25EC at 1ml per litre of water every 10 days.','Spray Tricyclazole 75WP (0.6g/L) focusing on young emerging leaves.','Follow with Carbendazim 50WP (1g/L) after 7 days if infection persists.','Avoid spraying during rain or wind to ensure effective coverage.']
+    },
+    ta:{
+      organic:['பாதிக்கப்பட்ட இலைகளை உடனடியாக நீக்கி அழிக்கவும்.','5ml நீம் எண்ணெய் + 1L நீரில் கலக்கி 3 நாட்களுக்கு ஒருமுறை தெளிக்கவும்.','Bordeaux கலவை (1%) சூரியோதயத்தில் பயன்படுத்தவும்.','தாவரங்களுக்கு இடையே அதிக வெளிப்பு விட்டு செழிப்பை கட்டுப்படுத்தவும்.'],
+      chemical:['Propiconazole 25EC ஐ 1ml/L ஆக 10 நாட்கள் முறையில் பயன்படுத்தவும்.','Tricyclazole 75WP (0.6g/L) இளம் இலைகளில் தெளிக்கவும்.','7 நாட்களுக்குப் பிறகு Carbendazim 50WP (1g/L) பயன்படுத்தவும்.','மழை அல்லது காற்றில் தெளிப்பதைத் தவிர்த்து தீவிரத்தன்மையை உறுதி செய்யவும்.']
+    },
+    hi:{
+      organic:['संक्रमित पत्तियों को तुरंत हटा दें और नष्ट कर दें।','5ml नीम का तेल + 1L पानी में मिलाकर हर 3 दिन छिड़कें।','Bordeaux मिश्रण (1%) सुबह जल्दी लगाएं।','अतिरिक्त पौधों को पतला करके हवा का प्रवाह बढ़ाएं।'],
+      chemical:['Propiconazole 25EC को 1ml प्रति लीटर पानी में हर 10 दिन लगाएं।','Tricyclazole 75WP (0.6g/L) नई पत्तियों पर छिड़कें।','7 दिन बाद Carbendazim 50WP (1g/L) लगाएं।','बारिश या हवा में छिड़काव न करें।']
+    },
+    te:{
+      organic:['సంక్రమించిన ఆకులను వెంటనే తీసివేసి నాశనం చేయండి.','5ml నీమ నూనె + 1L నీరుకు మిళితం చేసి ప్రతి 3 రోజుకు చిమ్మండి.','Bordeaux మిశ్రమం (1%) ఉదయం ఉపయోగించండి.','అతిరేక మొక్కలను సన్నబరచడం ద్వారా ఆకాశం సంచారం.'],
+      chemical:['Propiconazole 25EC ను 1ml/L కు ప్రతి 10 రోజులకు వర్తించండి.','Tricyclazole 75WP (0.6g/L) యువ ఆకులపై చిమ్మండి.','7 రోజుల తర్వాత Carbendazim 50WP (1g/L) చేయండి.','వర్షం లేదా గాలిలో చిమ్మకండి.']
+    },
+    kn:{
+      organic:['ಸೋಂಕುಗ್ರಸ್ತ ಎಲೆಗಳನ್ನು ತಕ್ಷಣ ತೆಗೆದುಹಾಕಿ.','5ml ನೀಮ ತೈಲ + 1L ನೀರುಗೆ ಬೆರೆಸಿ ಪ್ರತಿ 3 ದಿನಕ್ಕೆ ಚಿಮ್ಮಿ.','Bordeaux ಮಿಶ್ರಣ (1%) ಮುಂಜಾನೆ ಅನ್ವಯಿಸಿ.','ಹೆಚ್ಚುವರಿ ಹೆಣ್ಣುಮಕ್ಕಳನ್ನು ತೆಳುವಾಗಿಸಿ.'],
+      chemical:['Propiconazole 25EC ಅನ್ನು 1ml/L ಪ್ರತಿ 10 ದಿನಕ್ಕೆ ಅನ್ವಯಿಸಿ.','Tricyclazole 75WP (0.6g/L) ಯುವ ಎಲೆಗಳಿಗೆ ಚಿಮ್ಮಿ.','7 ದಿನಗಳ ನಂತರ Carbendazim 50WP (1g/L) ಅನುಸರಿಸಿ.','ಮಳೆ ಅಥವಾ ಗಾಳಿಯಲ್ಲಿ ಛಿದ್ರಪಾತ ಮಾಡಬೇಡಿ.']
+    },
+    bn:{
+      organic:['সংক্রমিত পাতা অবিলম্বে অপসারণ করুন।','5ml নিম তেল + 1L জলে মিশিয়ে প্রতি 3 দিনে স্প্রে করুন।','Bordeaux মিশ্রণ (1%) সকালে প্রয়োগ করুন।','অতিরিক্ত গাছ পাতলা করে বায়ু চলাচল বাড়ান।'],
+      chemical:['Propiconazole 25EC প্রতি 10 দিনে 1ml/L প্রয়োগ করুন।','Tricyclazole 75WP (0.6g/L) তরুণ পাতায় স্প্রে করুন।','7 দিন পর Carbendazim 50WP (1g/L) ব্যবহার করুন।','বৃষ্টি বা বাতাসে স্প্রে করবেন না।']
+    },
+    mr:{
+      organic:['संक्रमित पान तुरंत काढून टाका.','5ml नीम तेल + 1L पाणीत मिळवून प्रत्येक 3 दिवसांनी फवारा.','Bordeaux मिश्रण (1%) सकाळी लागू करा।','अतिरिक्त तण्डुळ पातळ करून हवा प्रवाह वाढवा।'],
+      chemical:['Propiconazole 25EC ला 1ml/L प्रत्येक 10 दिवसांनी लागू करा.','Tricyclazole 75WP (0.6g/L) तरुण पानांवर फवारा.','7 दिवसांनंतर Carbendazim 50WP (1g/L) फॉलो करा.','पाऊस किंवा वाऱ्यात फवारा करू नका.']
+    },
+    gu:{
+      organic:['સંક્રમિત પાન તરત દૂર કરો.','5ml નીમ તેલ + 1L પાણીમાં મિશ્રણ; દર 3 દિવસે છિટકાવો.','Bordeaux મિશ્રણ (1%) સવારે લાગુ કરો.','વધારાના પ્લાન્ટ્સ ને પાતળું કરીને હવા પ્રવાહ વધારો.'],
+      chemical:['Propiconazole 25EC ને 1ml/L પ્રતિ 10 દિવસે લાગુ કરો.','Tricyclazole 75WP (0.6g/L) યુવા પાને છિટકાવો.','7 દિવસ બાદ Carbendazim 50WP (1g/L) કરો.','વરસાદ અથવા પવનમાં છિટકાવો નહીં.']
+    }
+  };
+
+  const steps = treatments[lang]?.[type] || treatments.en[type];
+  const isOrg = type === 'organic';
+  
+  document.getElementById('tContent').innerHTML = steps.map((s, i) => `
+    <div class="tstep">
+      <div class="tnum" style="${!isOrg ? 'background:linear-gradient(135deg,var(--teal3),var(--tealdk));box-shadow:0 2px 10px rgba(78,201,196,.3)' : ''}">${i + 1}</div>
+      <div class="ttxt">${s}</div>
+    </div>
+  `).join('');
 }
+
+function renderHist(){const c=document.getElementById('histList');c.innerHTML='<div class="empty"><span>⏳</span><p>Loading...</p></div>';fetch('http://localhost:5000/api/history').then(res=>res.json()).then(data=>{if(!data.data||data.data.length===0){c.innerHTML=`<div class="empty"><span>📋</span><p>No diagnoses yet.<br>Start by scanning your crop!</p></div>`;return}c.innerHTML=data.data.map(h=>`<div class="hcard"><div class="hico">🌱</div><div class="hbody"><h4>${h.crop_name}</h4><p>${h.disease_name}</p><small>${new Date(h.created_at).toLocaleString()}</small></div><div class="hbadge ${h.severity==='severe'?'high':h.severity==='moderate'?'medium':'low'}">${h.confidence}%</div></div>`).join('')}).catch(()=>{c.innerHTML=hist.map(h=>`<div class="hcard"><div class="hico">${h.e}</div><div class="hbody"><h4>${h.crop}</h4><p>${h.disease}</p><small>${h.date}</small></div><div class="hbadge ${h.sev}">${cap(h.sev)}</div></div>`).join('')})}
+
+function renderResult(d){document.getElementById('confVal').textContent=d.conf+'%';const arc=document.getElementById('confArc'),total=2*Math.PI*31,filled=(d.conf/100)*total;arc.setAttribute('stroke-dasharray',`${filled.toFixed(1)} ${(total-filled).toFixed(1)}`);document.getElementById('rDis').textContent=d.name;document.getElementById('rCrop').textContent=(crop||'Unknown')+' · '+cap(season)+' Season';const sl=d.sev==='high'?'🔴 High Severity':d.sev==='medium'?'🟡 Medium Severity':'🟢 Low Severity';document.getElementById('rBadges').innerHTML=`<div class="rbadge ${d.sev}">${sl}</div><div class="rbadge">⏱ Spreads in ${d.spread}</div><div class="rbadge">${d.treat?'✅ Treatable':'❌ Not Treatable'}</div>`;document.getElementById('expertBox').style.display=d.conf<60?'block':'none';renderTreat('organic',d)}
+
+function switchTreat(type,btn){document.querySelectorAll('.ttab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');if(disease)renderTreat(type,disease)}
 
 function toggleTTS(btn){
-  const w=document.getElementById('waveB');
-  if(playing){window.speechSynthesis?.cancel();playing=false;btn.textContent='▶';w.classList.add('pause');return}
-  if(!disease)return;
-  const txt=`Diagnosis complete. Disease: ${disease.name}. Confidence: ${disease.conf}%. Severity: ${disease.sev}. Spreads in ${disease.spread}. ${disease.treat?'Treatable.':'Not treatable.'} Organic treatment: ${disease.organic[0]}`;
-  if('speechSynthesis'in window){
-    const u=new SpeechSynthesisUtterance(txt);
-    u.lang=lang==='ta'?'ta-IN':lang==='hi'||lang==='mr'?'hi-IN':'en-IN';u.rate=0.88;
-    u.onend=()=>{playing=false;btn.textContent='▶';w.classList.add('pause')};
-    window.speechSynthesis.speak(u);playing=true;btn.textContent='⏸';w.classList.remove('pause');
-  }
-}
-
-
-function requestExpert(){
-  if (!disease || !disease.history_id) {
-    alert('No diagnosis to review.');
+  const w = document.getElementById('waveB');
+  
+  if(playing){
+    if(audioElement) audioElement.pause();
+    window.speechSynthesis.cancel();
+    playing = false;
+    btn.textContent = '▶';
+    w.classList.add('pause');
     return;
   }
-  fetch('http://localhost:5000/api/expert-review', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ history_id: disease.history_id })
-  })
-  .then(res => res.json())
-  .then(() => {
-    alert('✅ Expert review requested!\nAn agronomist will SMS you within 24 hours.');
-  })
-  .catch(err => alert('Error: ' + err.message));
+  
+  if(!disease) return;
+
+  const messages = {
+    en: `Diagnosis complete. Disease: ${disease.name}. Confidence: ${disease.conf} percent. Severity: ${disease.sev}. This disease spreads in ${disease.spread}. ${disease.treat?'It is treatable.':'It is not treatable.'} First step: ${disease.organic[0]}`,
+    ta: `நோய் கண்டறிவு முடிந்தது. நோய்: ${disease.name}. நம்பகத்தன்மை: ${disease.conf}%. தீவிரம்: ${disease.sev}. ${disease.organic[0]}`,
+    hi: `निदान पूर्ण। रोग: ${disease.name}। विश्वसनीयता: ${disease.conf}%। ${disease.organic[0]}`,
+    te: `నిర్ధారణ పూర్తి. వ్యాధి: ${disease.name}. విశ్వాసం: ${disease.conf}%.`,
+    kn: `ರೋಗ ನಿರ್ಣಯ ಪೂರ್ಣ. ರೋಗ: ${disease.name}. ವಿಶ್ವಾಸಾರ್ಹತೆ: ${disease.conf}%.`,
+    bn: `রোগ নির্ণয় সম্পূর্ণ। রোগ: ${disease.name}। আত্মবিশ্বাস: ${disease.conf}%।`,
+    mr: `रोग निदान पूर्ण. रोग: ${disease.name}. विश्वास: ${disease.conf}%.`,
+    gu: `રોગ નિદાન સંપૂર્ણ. રોગ: ${disease.name}. વિશ્વાસ: ${disease.conf}%.`
+  };
+
+  const langMap = {
+    en: 'en',
+    ta: 'ta',
+    hi: 'hi',
+    te: 'te',
+    kn: 'kn',
+    bn: 'bn',
+    mr: 'mr',
+    gu: 'gu'
+  };
+
+  const txt = messages[lang] || messages.en;
+  const langCode = langMap[lang] || 'en';
+
+  // Use Google Translate TTS for non-English languages
+  if(lang !== 'en' && lang !== 'ta'){
+    useGoogleTTS(txt, langCode, btn, w);
+  } else {
+    useNativeSpeak(txt, lang, btn, w);
+  }
 }
+
+// ────────────────── GOOGLE TTS WITH CHUNKING ──────────────────
+function splitText(text, maxChars = 180) {
+  const chunks = [];
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
+  let current = '';
+  
+  sentences.forEach(sentence => {
+    if ((current + sentence).length < maxChars) {
+      current += sentence;
+    } else {
+      if (current) chunks.push(current.trim());
+      current = sentence;
+    }
+  });
+  
+  if (current) chunks.push(current.trim());
+  return chunks;
+}
+
+// Google Translate TTS (Works for all languages)
+function useGoogleTTS(text, langCode, btn, w){
+  try {
+    const chunks = splitText(text, 180); // Split into 180 char chunks
+    let currentChunk = 0;
+    
+    const playNextChunk = () => {
+      if (currentChunk >= chunks.length) {
+        // All chunks played
+        playing = false;
+        btn.textContent = '▶';
+        w.classList.add('pause');
+        return;
+      }
+      
+      const chunk = chunks[currentChunk];
+      const encodedText = encodeURIComponent(chunk);
+      const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedText}&tl=${langCode}&client=tw-ob`;
+      
+      audioElement = new Audio(audioUrl);
+      
+      audioElement.onplay = () => {
+        if (currentChunk === 0) {
+          playing = true;
+          btn.textContent = '⏸';
+          w.classList.remove('pause');
+        }
+      };
+      
+      audioElement.onended = () => {
+        currentChunk++;
+        // Play next chunk after 100ms gap
+        setTimeout(playNextChunk, 100);
+      };
+      
+      audioElement.onerror = (err) => {
+        console.error('Google TTS error:', err);
+        playing = false;
+        btn.textContent = '▶';
+        w.classList.add('pause');
+        // Fallback to native speak
+        useNativeSpeak(text, lang, btn, w);
+      };
+      
+      audioElement.play().catch(e => {
+        console.error('Play error:', e);
+        useNativeSpeak(text, lang, btn, w);
+      });
+    };
+    
+    playNextChunk();
+    
+  } catch(err){
+    console.error('TTS Error:', err);
+    useNativeSpeak(text, lang, btn, w);
+  }
+}
+
+// Native Web Speech API (for English & Tamil)
+function useNativeSpeak(txt, langCode, btn, w){
+  const langCodes = {
+    en: 'en-US',
+    ta: 'ta-IN'
+  };
+
+  window.speechSynthesis.cancel();
+  
+  const u = new SpeechSynthesisUtterance(txt);
+  u.lang = langCodes[langCode] || 'en-US';
+  u.rate = 0.85;
+  u.volume = 1;
+  u.pitch = 1;
+
+  const voices = window.speechSynthesis.getVoices();
+  const matchingVoice = voices.find(v => v.lang.startsWith(langCodes[langCode].split('-')[0]));
+  
+  if(matchingVoice){
+    u.voice = matchingVoice;
+  }
+
+  u.onstart = () => {
+    playing = true;
+    btn.textContent = '⏸';
+    w.classList.remove('pause');
+  };
+
+  u.onend = () => {
+    playing = false;
+    btn.textContent = '▶';
+    w.classList.add('pause');
+  };
+
+  u.onerror = (e) => {
+    console.error('Speech error:', e);
+    playing = false;
+    btn.textContent = '▶';
+    w.classList.add('pause');
+  };
+
+  if(voices.length === 0){
+    window.speechSynthesis.onvoiceschanged = () => {
+      window.speechSynthesis.speak(u);
+    };
+  } else {
+    setTimeout(() => {
+      window.speechSynthesis.speak(u);
+    }, 100);
+  }
+}
+
+let audioElement = null;
+
+function requestExpert(){if(!disease||!disease.history_id){alert('No diagnosis to review.');return}fetch('http://localhost:5000/api/expert-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({history_id:disease.history_id})}).then(res=>res.json()).then(()=>{alert('✅ Expert review requested!\nAn agronomist will SMS you within 24 hours.')}).catch(err=>alert('Error: '+err.message))}
+
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+</script>
+<script>
+  // Initialize language buttons after DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const w = document.getElementById('langScroll');
+    if(w) {
+      w.innerHTML = Object.entries(LANGS).map(([c, d]) => 
+        `<button class="lbtn${c === 'en' ? ' sel' : ''}" onclick="setLang('${c}', this)">${d.flag} ${d.label}</button>`
+      ).join('');
+      applyLang();
+    }
+  });
 </script>
 </body>
 </html>
